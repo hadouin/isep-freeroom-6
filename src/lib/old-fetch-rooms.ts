@@ -1,0 +1,87 @@
+import { addWeeks, isWithinInterval, startOfDay } from 'date-fns';
+import fs from 'fs';
+import ICAL from 'ical.js';
+import type { Room, Event } from './rooms';
+import { buildCalendarUrl } from './rooms-config';
+
+export function fetchRoomMock(config: RoomConfigMap): Promise<Room[]> {
+	return Promise.all(
+		Object.entries(config).map(([room, conf]) => {
+			const filePath = 'cached/room_' + room + '.txt';
+			if (!fs.existsSync(filePath)) {
+				return fetch(buildCalendarUrl(room, conf.urlId))
+					.then((res) => res.text())
+					.then((data) => {
+						fs.writeFileSync(filePath, data);
+						return {
+							id: room,
+							floor: conf.floor,
+							events: extractCalEvents(data)
+						};
+					});
+			}
+
+			const data = fs.readFileSync(filePath).toString();
+			return Promise.resolve({
+				id: room,
+				floor: conf.floor,
+				events: extractCalEvents(data)
+			});
+		})
+	);
+}
+
+export function fetchRooms(config: RoomConfigMap): Promise<Room[]> {
+	return Promise.all(
+		Object.entries(config).map(([roomID, roomConfig]) => {
+			console.log('Fetching calendar for room: ' + roomID);
+			return fetch(buildCalendarUrl(roomID, roomConfig.urlId)).then((res) => {
+				if (res.ok) {
+					return res.text().then((data) => ({
+						id: roomID,
+						floor: roomConfig.floor,
+						events: extractCalEvents(data)
+					}));
+				}
+
+				console.error('could not retrieve the calendar for room: ', roomID, '');
+				return null;
+			});
+		})
+	).then((rooms) => rooms.filter((room) => room !== null) as Room[]);
+}
+
+function extractCalEvents(rawData: string): Event[] {
+	try {
+		const nextWeek = addWeeks(startOfDay(new Date()), 1);
+		const calData = ICAL.parse(rawData);
+		return new ICAL.Component(calData)
+			.getAllSubcomponents('vevent')
+			.map((subcomp) => new ICAL.Event(subcomp))
+			.filter((e) => {
+				const isValidEvent = e.summary !== 'Férié' && !e.summary.startsWith('cours annulé');
+
+				const startDate = e.startDate.toJSDate();
+				const isWithinNextWeek = isWithinInterval(startDate, {
+					start: new Date(),
+					end: nextWeek
+				});
+
+				return isValidEvent && isWithinNextWeek;
+			})
+			.map((event) => {
+				return {
+					name: event.summary,
+					description: event.description,
+					location: event.location,
+					time: {
+						start: event.startDate.toUnixTime() * 1000,
+						end: event.endDate.toUnixTime() * 1000
+					}
+				};
+			});
+	} catch (error) {
+		console.error('failed parsing calendar', error, rawData);
+		throw error;
+	}
+}

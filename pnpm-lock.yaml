@@ -11,6 +11,15 @@ dependencies:
   clsx:
     specifier: ^2.1.0
     version: 2.1.0
+  date-fns:
+    specifier: ^3.6.0
+    version: 3.6.0
+  fs:
+    specifier: 0.0.1-security
+    version: 0.0.1-security
+  ical.js:
+    specifier: ^2.0.0
+    version: 2.0.0
   lucide-svelte:
     specifier: ^0.363.0
     version: 0.363.0(svelte@4.2.12)
@@ -22,6 +31,12 @@ dependencies:
     version: 0.2.1(tailwindcss@3.4.3)
 
 devDependencies:
+  '@event-calendar/core':
+    specifier: ^2.6.1
+    version: 2.6.1
+  '@event-calendar/resource-time-grid':
+    specifier: ^2.6.1
+    version: 2.6.1
   '@sveltejs/adapter-auto':
     specifier: ^3.0.0
     version: 3.2.0(@sveltejs/kit@2.5.5)
@@ -297,6 +312,27 @@ packages:
     requiresBuild: true
     dev: true
     optional: true
+
+  /@event-calendar/core@2.6.1:
+    resolution: {integrity: sha512-3dxMnmFfjEzeyNFhm0PS04/Js3LqqQC6HzqY6XtypxC2wLFhxrK4NqX4cq8ZKtIrTJu6EFFB3DZ8GamW28Pl7g==}
+    dependencies:
+      svelte: 4.2.12
+    dev: true
+
+  /@event-calendar/resource-time-grid@2.6.1:
+    resolution: {integrity: sha512-oeDXmueuS+TdTbHbMwv6c592lsea5QNGIchkuqbdWRf4MbG2GnAdvChMywxpbur/7s8D/YBZaNGN4raC57uLUg==}
+    dependencies:
+      '@event-calendar/core': 2.6.1
+      '@event-calendar/time-grid': 2.6.1
+      svelte: 4.2.12
+    dev: true
+
+  /@event-calendar/time-grid@2.6.1:
+    resolution: {integrity: sha512-YSy2sJlpu7ZR7l+/c4DO/LpyZ+1+i357mXwth/i3gBew+bNQvWdMpiaYX05gNR5DokbXx3ZNYcbnXFPLVVvBDw==}
+    dependencies:
+      '@event-calendar/core': 2.6.1
+      svelte: 4.2.12
+    dev: true
 
   /@floating-ui/core@1.6.0:
     resolution: {integrity: sha512-PcF++MykgmTj3CIyOQbKA/hDzOAiqI3mhuoN44WRCopIs1sgoDoU4oty4Jtqaj/y3oDU6fnVSm4QG0a3t5i0+g==}
@@ -892,6 +928,10 @@ packages:
     engines: {node: '>=4'}
     hasBin: true
 
+  /date-fns@3.6.0:
+    resolution: {integrity: sha512-fRHTG8g/Gif+kSh50gaGEdToemgfj74aRX3swtiouboip5JDLAyDE9F11nHMIcvOaXeOC6D7SpNhi7uFyB7Uww==}
+    dev: false
+
   /debug@4.3.4:
     resolution: {integrity: sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==}
     engines: {node: '>=6.0'}
@@ -1059,6 +1099,10 @@ packages:
     resolution: {integrity: sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw==}
     dev: true
 
+  /fs@0.0.1-security:
+    resolution: {integrity: sha512-3XY9e1pP0CVEUCdj5BmfIZxRBTSDycnbqhIOGec9QYtmVH2fbLpj86CFWkrNOkt/Fvty4KZG5lTglL9j/gJ87w==}
+    dev: false
+
   /fsevents@2.3.3:
     resolution: {integrity: sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==}
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
@@ -1134,6 +1178,10 @@ packages:
     resolution: {integrity: sha512-AXcZb6vzzrFAUE61HnN4mpLqd/cSIwNQjtNWR0euPm6y0iqx3G4gOXaIDdtdDwZmhwe82LA6+zinmW4UBWVePQ==}
     engines: {node: '>=16.17.0'}
     dev: true
+
+  /ical.js@2.0.0:
+    resolution: {integrity: sha512-eb/KPJlF1IxRNvbjkGtt3lXQg1TeGEh8RzmCQk65qIFw5p+SONy8FUCFoclsfxpX1CFjyShzO/Lm0bdig7vFPg==}
+    dev: false
 
   /import-fresh@3.3.0:
     resolution: {integrity: sha512-veYYhQa+D1QBKznvhUHxb8faxlrwUnxseDAbAp457E0wLNio2bOSKnjYDhMj+YiAq61xrMGhQk9iXVk5FzgQMw==}

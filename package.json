@@ -13,6 +13,8 @@
 		"format": "prettier --write ."
 	},
 	"devDependencies": {
+		"@event-calendar/core": "^2.6.1",
+		"@event-calendar/resource-time-grid": "^2.6.1",
 		"@sveltejs/adapter-auto": "^3.0.0",
 		"@sveltejs/kit": "^2.0.0",
 		"@sveltejs/vite-plugin-svelte": "^3.0.0",
@@ -34,6 +36,9 @@
 	"dependencies": {
 		"bits-ui": "^0.21.1",
 		"clsx": "^2.1.0",
+		"date-fns": "^3.6.0",
+		"fs": "0.0.1-security",
+		"ical.js": "^2.0.0",
 		"lucide-svelte": "^0.363.0",
 		"tailwind-merge": "^2.2.2",
 		"tailwind-variants": "^0.2.1"
