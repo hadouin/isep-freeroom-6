@@ -91,7 +91,7 @@
 						</a>
 					</nav>
 					<div class="mt-auto">
-						<Card.Root>
+						<!-- <Card.Root>
 							<Card.Header>
 								<Card.Title>Upgrade to Pro</Card.Title>
 								<Card.Description>
@@ -101,7 +101,7 @@
 							<Card.Content>
 								<Button size="sm" class="w-full">Upgrade</Button>
 							</Card.Content>
-						</Card.Root>
+						</Card.Root> -->
 					</div>
 				</Sheet.Content>
 			</Sheet.Root>

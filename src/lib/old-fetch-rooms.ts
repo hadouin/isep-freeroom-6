@@ -1,7 +1,7 @@
 import { addWeeks, isWithinInterval, startOfDay } from 'date-fns';
 import fs from 'fs';
 import ICAL from 'ical.js';
-import type { Room, Event } from './rooms';
+import type { Room, Event } from './old-rooms';
 import { buildCalendarUrl } from './rooms-config';
 
 export function fetchRoomMock(config: RoomConfigMap): Promise<Room[]> {

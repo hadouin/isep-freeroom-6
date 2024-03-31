@@ -7,7 +7,7 @@
 	import ResourceTimeGrid from '@event-calendar/resource-time-grid';
 
 	let plugins = [ResourceTimeGrid];
-	let options = {
+	$: options = {
 		view: 'resourceTimeGridDay',
 		events: data.room.events,
 		resources: [data.room.resource]

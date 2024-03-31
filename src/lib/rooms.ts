@@ -1,98 +1,36 @@
-import { isBefore, isSameDay, isWithinInterval } from "date-fns";
+import { extractCalEvents } from './calendar';
+import type { PlainResource } from './resources';
+import { ROOM_CONFIG, type RoomConfig } from './rooms-config';
 
-export type Building = "NDC" | "NDL";
+export async function fetchRoomCalendarFromID(roomID: string, fetch: Function = globalThis.fetch) {
+	const roomConfig: RoomConfig = ROOM_CONFIG[roomID];
+	if (!roomConfig) {
+		return { status: 404, error: 'Room not found' };
+	}
 
-interface TimeDuration {
-  start: number;
-  end: number;
+	console.log('Fetching calendar for room: ' + roomID);
+	try {
+		const res = await fetch(roomConfig.ical);
+		const data = await res.text();
+
+		return {
+			status: 200,
+			room: {
+				id: roomID,
+				floor: roomConfig.floor,
+				resource: createResource(roomConfig),
+				events: extractCalEvents(data, [roomConfig.id])
+			}
+		};
+	} catch (e) {
+		console.error(`could not retrieve the calendar for room: ${roomID}`, e);
+		return { status: 500, error: 'Could not retrieve the calendar' };
+	}
 }
 
-export interface Event {
-  name: string;
-  location: string;
-  description: string;
-  time: TimeDuration;
-}
-
-export interface Room {
-  id: string;
-  floor: number;
-  events: Event[];
-}
-
-export interface Floor {
-  level: number;
-  rooms: Room[];
-}
-
-export enum RoomStatus {
-  NOT_FREE,
-  FREE_FOR,
-  FREE,
-}
-
-export type RoomStatusInfo = { status: RoomStatus; currentEvent: Event | null };
-
-// Sépare les salles en 2 catégories: dispo et non dispo
-export function filterRoomsByAvailability(rooms: Room[]): {
-  free: Room[];
-  notFree: Room[];
-} {
-  const now = new Date().getTime();
-  // const now = new Date().getTime() + 1000 * 60 * 60 * 9;
-  const free: Room[] = [];
-  const notFree: Room[] = [];
-  if (rooms.length === 0) {
-    return { free, notFree };
-  }
-  rooms.forEach((r) => {
-    let isFree = true;
-    r.events.forEach((e) => {
-      if (now > e.time.start && now < e.time.end) {
-        isFree = false;
-        notFree.push(r);
-      }
-    });
-    if (isFree) {
-      free.push(r);
-    }
-  });
-  return { free, notFree };
-}
-
-export function buildFloors(rooms: Room[]): Floor[] {
-  const floors: { [floor: string]: Room[] } = {};
-  const floorsList: Floor[] = [];
-  rooms.forEach((r) => {
-    if (floors[r.floor] == null) floors[r.floor] = [];
-    floors[r.floor].push(r);
-  });
-  Object.keys(floors).forEach((k) => {
-    floorsList.push({
-      level: parseInt(k, 10),
-      rooms: floors[k],
-    });
-  });
-  return floorsList;
-}
-
-export function roomStatus(date: Date, events: Event[]): RoomStatusInfo {
-  const filtered = events
-    .filter((e) => {
-      return isSameDay(date, new Date(e.time.start));
-    })
-    .sort((a, b) => (a.time.start > b.time.start ? 1 : -1));
-
-  for (const event of filtered) {
-    const start = new Date(event.time.start);
-    const end = new Date(event.time.end);
-    if (isWithinInterval(date, { start, end })) {
-      return { status: RoomStatus.NOT_FREE, currentEvent: event };
-    }
-
-    if (isBefore(date, start)) {
-      return { status: RoomStatus.FREE_FOR, currentEvent: event };
-    }
-  }
-  return { status: RoomStatus.FREE, currentEvent: null };
+function createResource(roomConfig: RoomConfig): PlainResource {
+	return {
+		id: roomConfig.id,
+		title: roomConfig.id
+	};
 }
