@@ -34,7 +34,7 @@ export async function load({ fetch }: { fetch: Function }) {
 	return { roomsInfo };
 }
 
-export function roomStatus(
+function roomStatus(
 	date: Date,
 	events: PlainEvent[]
 ): { free: boolean; currentEvent: PlainEvent | null } {
