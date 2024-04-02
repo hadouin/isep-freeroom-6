@@ -17,10 +17,10 @@
 	function getTimeTo(dateString: string) {
 		const date = new Date(dateString);
 
-		const hours = Math.trunc((date.getTime() - now.getTime()) / (1000 * 60 * 60))
+		const hours = Math.trunc((date.getTime() - now.getTime() + 1000  * 60) / (1000 * 60 * 60))
 			.toString()
 			.padStart(2, '0');
-		const minutes = Math.trunc(((date.getTime() - now.getTime()) / (1000 * 60)) % 60)
+		const minutes = Math.trunc(((date.getTime() - now.getTime() + 1000 * 60) / (1000 * 60)) % 60) 
 			.toString()
 			.padStart(2, '0');
 		return `${hours}h${minutes}`;
