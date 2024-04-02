@@ -64,7 +64,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="flex flex-col">
+	<div class="flex flex-col h-screen">
 		<header class="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
 			<Sheet.Root>
 				<Sheet.Trigger asChild let:builder>
@@ -137,6 +137,8 @@
 				</DropdownMenu.Content>
 			</DropdownMenu.Root>
 		</header>
-		<slot />
+		<main class="flex flex-col flex-1 gap-4 p-4 overflow-scroll md:gap-8 md:p-8">
+			<slot />
+		</main>
 	</div>
 </div>

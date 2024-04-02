@@ -21,13 +21,10 @@ export async function load({ fetch }: { fetch: Function }) {
 			};
 		}
 
-    // TODO revert to today after testing
-		let tomorrow = new Date();
-		tomorrow.setDate(tomorrow.getDate() + 1);
 		return {
 			id: roomCalendar.room?.id,
 			floor: roomCalendar.room?.floor,
-			status: roomStatus(tomorrow, roomCalendar.room?.events ?? [])
+			status: roomStatus(new Date(), roomCalendar.room?.events ?? [])
 		};
 	});
 
