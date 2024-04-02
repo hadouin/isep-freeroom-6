@@ -1,8 +1,25 @@
+import { error } from '@sveltejs/kit';
 import { extractCalEvents } from './calendar';
 import type { PlainResource } from './resources';
 import { ROOM_CONFIG, type RoomConfig } from './rooms-config';
 
-export async function fetchRoomCalendarFromID(roomID: string, fetch: Function = globalThis.fetch) {
+export async function fetchRoomCalendarFromID(
+	roomID: string,
+	fetch: Function = globalThis.fetch
+): Promise<
+	| { status: number; error: string; room?: undefined; ical?: undefined }
+	| {
+			status: number;
+			room: {
+				id: string;
+				floor: number;
+				resource: PlainResource;
+				events: import('c:/Users/HLY5/VSCProjects/isep-freeroom-6/src/lib/events').PlainEvent[];
+			};
+			ical: any;
+			error?: undefined;
+	  }
+> {
 	const roomConfig: RoomConfig = ROOM_CONFIG[roomID];
 	if (!roomConfig) {
 		return { status: 404, error: 'Room not found' };
@@ -20,11 +37,12 @@ export async function fetchRoomCalendarFromID(roomID: string, fetch: Function = 
 				floor: roomConfig.floor,
 				resource: createResource(roomConfig),
 				events: extractCalEvents(data, [roomConfig.id])
-			}
+			},
+			ical: res
 		};
 	} catch (e) {
 		console.error(`could not retrieve the calendar for room: ${roomID}`, e);
-		return { status: 500, error: 'Could not retrieve the calendar' };
+		throw error(500, 'Could not retrieve the calendar for room: ' + roomID);
 	}
 }
 

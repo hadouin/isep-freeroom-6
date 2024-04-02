@@ -44,6 +44,16 @@
 						class:text-primary={$page.url.pathname === '/'}
 						class:bg-muted={$page.url.pathname === '/'}
 					>
+						<Home class="w-4 h-4" />
+						Home
+					</a>
+					<a
+						href="/rooms"
+						class="flex items-center gap-3 px-3 py-2 transition-all rounded-lg hover:text-primary"
+						class:text-muted-foreground={$page.url.pathname !== '/rooms'}
+						class:text-primary={$page.url.pathname === '/rooms'}
+						class:bg-muted={$page.url.pathname === '/rooms'}
+					>
 						<DoorOpen class="w-4 h-4" />
 						Salles
 					</a>
