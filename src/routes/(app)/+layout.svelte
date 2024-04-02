@@ -1,28 +1,17 @@
 <script lang="ts">
-	import CircleUser from 'lucide-svelte/icons/circle-user';
-	import LineChart from 'lucide-svelte/icons/line-chart';
-	import Package from 'lucide-svelte/icons/package';
-	import Home from 'lucide-svelte/icons/home';
-	import ShoppingCart from 'lucide-svelte/icons/shopping-cart';
-	import Bot from 'lucide-svelte/icons/bot';
-	import University from 'lucide-svelte/icons/university';
 	import Building2 from 'lucide-svelte/icons/building-2';
+	import CircleUser from 'lucide-svelte/icons/circle-user';
 	import DoorOpen from 'lucide-svelte/icons/door-open';
+	import Home from 'lucide-svelte/icons/home';
 	import Menu from 'lucide-svelte/icons/menu';
-	import Package2 from 'lucide-svelte/icons/package-2';
-	import Search from 'lucide-svelte/icons/search';
-	import Users from 'lucide-svelte/icons/users';
 
-	import { Badge } from '$lib/components/ui/badge/index.js';
 	import { Button } from '$lib/components/ui/button/index.js';
-	import * as Card from '$lib/components/ui/card/index.js';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js';
-	import { Input } from '$lib/components/ui/input/index.js';
 	import * as Sheet from '$lib/components/ui/sheet/index.js';
 
 	import { page } from '$app/stores';
-	import { goto } from '$app/navigation';
 	import SearchBar from '$lib/components/search/search-bar.svelte';
+	import { Calendar } from 'lucide-svelte';
 </script>
 
 <div class="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
@@ -55,6 +44,16 @@
 					>
 						<DoorOpen class="w-4 h-4" />
 						Salles
+					</a>
+					<a
+						href="/calendar"
+						class="flex items-center gap-3 px-3 py-2 transition-all rounded-lg hover:text-primary"
+						class:text-muted-foreground={$page.url.pathname !== '/calendar'}
+						class:text-primary={$page.url.pathname === '/calendar'}
+						class:bg-muted={$page.url.pathname === '/calendar'}
+					>
+						<Calendar class="w-4 h-4" />
+						Calendrier
 					</a>
 				</nav>
 			</div>
@@ -90,13 +89,33 @@
 						</a>
 						<a
 							href="/"
-							class="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
+							class="flex items-center gap-3 px-3 py-2 transition-all rounded-lg hover:text-primary"
 							class:text-muted-foreground={$page.url.pathname !== '/'}
 							class:text-primary={$page.url.pathname === '/'}
 							class:bg-muted={$page.url.pathname === '/'}
 						>
+							<Home class="w-4 h-4" />
+							Home
+						</a>
+						<a
+							href="/rooms"
+							class="flex items-center gap-3 px-3 py-2 transition-all rounded-lg hover:text-primary"
+							class:text-muted-foreground={$page.url.pathname !== '/rooms'}
+							class:text-primary={$page.url.pathname === '/rooms'}
+							class:bg-muted={$page.url.pathname === '/rooms'}
+						>
 							<DoorOpen class="w-4 h-4" />
 							Salles
+						</a>
+						<a
+							href="/calendar"
+							class="flex items-center gap-3 px-3 py-2 transition-all rounded-lg hover:text-primary"
+							class:text-muted-foreground={$page.url.pathname !== '/calendar'}
+							class:text-primary={$page.url.pathname === '/calendar'}
+							class:bg-muted={$page.url.pathname === '/calendar'}
+						>
+							<Calendar class="w-4 h-4" />
+							Calendrier
 						</a>
 					</nav>
 					<div class="mt-auto">
