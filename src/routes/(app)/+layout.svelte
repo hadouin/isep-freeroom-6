@@ -22,8 +22,7 @@
 
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
-
-	let search = '';
+	import SearchBar from '$lib/components/search/search-bar.svelte';
 </script>
 
 <div class="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
@@ -116,19 +115,7 @@
 				</Sheet.Content>
 			</Sheet.Root>
 			<div class="flex-1 w-full">
-				<form>
-					<div class="relative">
-						<Search class="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-						<form on:submit|preventDefault={() => goto(`/room/${search}`)}>
-							<Input
-								type="search"
-								placeholder="Search for a room..."
-								class="w-full pl-8 shadow-none appearance-none bg-background md:w-2/3 lg:w-1/3"
-								bind:value={search}
-							/>
-						</form>
-					</div>
-				</form>
+				<SearchBar className="md:w-2/3 lg:w-1/3"></SearchBar>
 			</div>
 			<DropdownMenu.Root>
 				<DropdownMenu.Trigger asChild let:builder>
@@ -147,8 +134,6 @@
 				</DropdownMenu.Content>
 			</DropdownMenu.Root>
 		</header>
-		<main class="flex flex-col flex-1 gap-4 p-4 overflow-scroll md:gap-8 md:p-8">
-			<slot />
-		</main>
+		<slot />
 	</div>
 </div>

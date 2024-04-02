@@ -18,4 +18,6 @@
 	};
 </script>
 
-<Calendar {plugins} {options} />
+<main class="flex flex-col flex-1 gap-4 p-4 overflow-scroll md:gap-8 md:p-8">
+	<Calendar {plugins} {options} />
+</main>

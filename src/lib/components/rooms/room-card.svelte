@@ -47,7 +47,7 @@
 					<span class="text-red-500">Occupé</span>
 				{/if}
 			{:catch error}
-				<p style="color: red">{JSON.stringify(error, null, 2)}</p>
+				<p style="color: red">Erreur lors de la récuperation du calendrier</p>
 			{/await}
 		</Card.Description>
 	</Card.Header>

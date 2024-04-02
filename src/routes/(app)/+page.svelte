@@ -1,43 +1,41 @@
 <script lang="ts">
-	import * as Card from '$lib/components/ui/card/index.js';
-	import { get } from 'svelte/store';
-
-	export let data;
-
-	const now = new Date();
-
-	function getTimeTo(date: Date) {
-		const hours = Math.trunc((date.getTime() - now.getTime()) / (1000 * 60 * 60));
-		const minutes = Math.trunc(((date.getTime() - now.getTime()) / (1000 * 60)) % 60);
-		return `${hours}h${minutes}`;
-	}
+	import { SearchBar } from '$lib/components/search';
+	import Button from '$lib/components/ui/button/button.svelte';
+	import * as Card from '$lib/components/ui/card';
+	import { DoorOpen } from 'lucide-svelte';
 </script>
 
-{#each data.roomsInfo as room}
+<main
+	class="flex flex-col items-center justify-center flex-1 gap-4 p-4 overflow-scroll md:gap-8 md:p-8"
+>
+	<h1 class="text-xl">Welcome to freeroom</h1>
 	<Card.Root>
 		<Card.Header>
-			<Card.Title>
-				<a href="/room/{room.id}">{room.id}</a>
-			</Card.Title>
-			<Card.Description>
-				{#if room.status.free}
-					<span class="text-green-500">Free</span>
-					{#if room.status.currentEvent}
-						<span class="text-gray-500"> for {getTimeTo(room.status.currentEvent.start)}</span>
-					{/if}
-				{:else}
-					<span class="text-red-500">Occupied</span>
-				{/if}
-			</Card.Description>
+			<Card.Title>Find a room</Card.Title>
 		</Card.Header>
 		<Card.Content>
-			{#if room.status.currentEvent}
-				<p>{room.status.currentEvent.title}</p>
-				<p>{room.status.currentEvent.start}</p>
-				<p>{room.status.currentEvent.end}</p>
-			{:else}
-				<p>No events</p>
-			{/if}
+			<div class="w-full">
+				<SearchBar>
+					<div class="w-full mt-2">
+						<Button class="w-full" type="submit">Find</Button>
+					</div>
+				</SearchBar>
+			</div>
 		</Card.Content>
 	</Card.Root>
-{/each}
+	<a href="/rooms">
+		<Card.Root>
+			<Card.Header>
+				<div class="flex items-center gap-4">
+					<div class="p-2 border border-gray-200 rounded">
+						<DoorOpen class="w-8 h-8" />
+					</div>
+					<div>
+						<Card.Title>Voir tout</Card.Title>
+						<Card.Description>liste de toutes les salles</Card.Description>
+					</div>
+				</div>
+			</Card.Header>
+		</Card.Root>
+	</a>
+</main>
