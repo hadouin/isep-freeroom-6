@@ -21,8 +21,9 @@ export function extractCalEvents(icalRaw: string, resourceIds: string[]): PlainE
 			const isValidEvent = e.summary !== 'Férié' && !e.summary.startsWith('cours annulé');
 
 			const startDate = e.startDate.toJSDate();
+			const today = startOfDay(new Date());
 			const isWithinNextWeek = isWithinInterval(startDate, {
-				start: new Date(),
+				start: today,
 				end: nextWeek
 			});
 
