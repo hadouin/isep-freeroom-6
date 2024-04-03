@@ -5,7 +5,7 @@
 	export let data;
 </script>
 
-<main class="flex flex-col flex-1 gap-4 p-4 overflow-scroll md:gap-8 md:p-8">
+<main class="flex flex-col flex-1 gap-2 p-4 overflow-scroll md:p-8">
 	<Breadcrumb.Root>
 		<Breadcrumb.List>
 			<Breadcrumb.Item>
