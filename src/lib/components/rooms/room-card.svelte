@@ -32,7 +32,7 @@
 	}
 </script>
 
-<Card.Root class="w-52">
+<Card.Root class="w-full md:w-96">
 	<Card.Header>
 		<Card.Title>
 			<a href="/rooms/{roomId}">{roomId}</a>

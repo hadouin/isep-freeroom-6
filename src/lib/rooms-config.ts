@@ -145,6 +145,114 @@ export const ROOM_CONFIG: SerializedRooms = {
 		id: 'L012',
 		building: 'NDL',
 		floor: 0
+	},
+	L016: {
+		ical: 'https://planning-2324.isep.fr/Telechargements/ical/Edt_L016.ics?version=2023.0.7.0&icalsecurise=80C220731616F3916EA72303C06CF3BA88300C4272A47AAEBAEE49A65CEB072E04CF7365D8AA874343F88B02F47D5AA4&param=643d5b312e2e36325d2666683d3126663d3130',
+		id: 'L016',
+		building: 'NDL',
+		floor: 0
+	},
+	L017: {
+		ical: 'https://planning-2324.isep.fr/Telechargements/ical/Edt_L017.ics?version=2023.0.7.0&icalsecurise=9C4D88A0347F58D3013A45766A7075A356FFDFED09C93593C53AB6E1A747990C3E3EFE0E85164B7FA8AB2352FE2D4625&param=643d5b312e2e36325d2666683d3126663d3130',
+		id: 'L017',
+		building: 'NDL',
+		floor: 0
+	},
+	L018: {
+		ical: 'https://planning-2324.isep.fr/Telechargements/ical/Edt_L018_Salle_de_lecture.ics?version=2023.0.7.0&icalsecurise=9C4D88A0347F58D3013A45766A7075A3027BC142B7759292A79AC93F25693915A1813D335BA4DB2860BEC0EDF740D8B1&param=643d5b312e2e36325d2666683d3126663d3130',
+		id: 'L018',
+		building: 'NDL',
+		floor: 0
+	},
+	L108: {
+		ical: 'https://planning-2324.isep.fr/Telechargements/ical/Edt_L108.ics?version=2023.0.7.0&icalsecurise=0116C13A9A5DD4A01EC6C1005F2C0A5E19C411A2700829A1F8C1E8E0EF18E895D6FD38662B6FE145C4A29FDAE0630DE7&param=643d5b312e2e36325d2666683d3126663d3130',
+		id: 'L108',
+		building: 'NDL',
+		floor: 1
+	},
+	L114: {
+		ical: 'https://planning-2324.isep.fr/Telechargements/ical/Edt_L114.ics?version=2023.0.7.0&icalsecurise=834903FFC954DA8E8A09597B89CD72EC3FF87412916FB0879133AA27A475314FAC69DA096CB979EDFD040C67703D6881&param=643d5b312e2e36325d2666683d3126663d3130',
+		id: 'L114',
+		building: 'NDL',
+		floor: 1
+	},
+	L115: {
+		ical: 'https://planning-2324.isep.fr/Telechargements/ical/Edt_L115.ics?version=2023.0.7.0&icalsecurise=0116C13A9A5DD4A01EC6C1005F2C0A5EBD4773A79AF421EC1FDDB53979CD7B273F69471836BEA302CB72FF1D285A8998&param=643d5b312e2e36325d2666683d3126663d3130',
+		id: 'L115',
+		building: 'NDL',
+		floor: 1
+	},
+	L206: {
+		ical: 'https://planning-2324.isep.fr/Telechargements/ical/Edt_L206.ics?version=2023.0.7.0&icalsecurise=091657B2020FCC2FE3B91DB81831F7424A1738C289FF0C570AAA4124DA964B5AEDB9723467907EA01CCAD82834B0DFFF&param=643d5b312e2e36325d2666683d3126663d3130',
+		id: 'L206',
+		building: 'NDL',
+		floor: 2
+	},
+	L207: {
+		ical: 'https://planning-2324.isep.fr/Telechargements/ical/Edt_L207.ics?version=2023.0.7.0&icalsecurise=219B22E7F74A66A8A260B976A502DA41F1A35E8D30B5AA8C1B08861DDBC1CC01F341B5DA13A1BE9C897492C2E8500D84&param=643d5b312e2e36325d2666683d3126663d3130',
+		id: 'L207',
+		building: 'NDL',
+		floor: 2
+	},
+	L212: {
+		ical: 'https://planning-2324.isep.fr/Telechargements/ical/Edt_L212.ics?version=2023.0.7.0&icalsecurise=6EBDFEE851E2ABA6D3BBE95A8CCA8314804D2C9F0412FC15A9B1774A2C96A3145D561CBD8CDE55EE8D693121D062F5DC&param=643d5b312e2e36325d2666683d3126663d3130',
+		id: 'L212',
+		building: 'NDL',
+		floor: 2
+	},
+	L213: {
+		ical: 'https://planning-2324.isep.fr/Telechargements/ical/Edt_L213.ics?version=2023.0.7.0&icalsecurise=2B44A7996D07EA47FF19F0AEE5EE2648036BFC7AECF654C05D2123825E26ED6FF21FB50B88341ED36EC3CF91F8AC2279&param=643d5b312e2e36325d2666683d3126663d3130',
+		id: 'L213',
+		building: 'NDL',
+		floor: 2
+	},
+	L220: {
+		ical: 'https://planning-2324.isep.fr/Telechargements/ical/Edt_L220.ics?version=2023.0.7.0&icalsecurise=9C4D88A0347F58D3013A45766A7075A300DD1ECF97D588E261FDA1976923FD81EFB02E933EB09D2B6E05438FDBD9E3DB&param=643d5b312e2e36325d2666683d3126663d3130',
+		id: 'L220',
+		building: 'NDL',
+		floor: 2
+	},
+	L305: {
+		ical: 'https://planning-2324.isep.fr/Telechargements/ical/Edt_L305.ics?version=2023.0.7.0&icalsecurise=091657B2020FCC2FE3B91DB81831F742ED5ED4288B433A9B306CB45AF79A47EA62664DAF2B7F0ED35769CE2C8FC226C4&param=643d5b312e2e36325d2666683d3126663d3130',
+		id: 'L305',
+		building: 'NDL',
+		floor: 3
+	},
+	L306: {
+		ical: 'https://planning-2324.isep.fr/Telechargements/ical/Edt_L306.ics?version=2023.0.7.0&icalsecurise=AA78FDB14C4AE1D324DE356666D214C20703609A7749CF5E55CA9B5DBB5C72E3825FE5B09A6029CF7EE8AC89D95EE6E2&param=643d5b312e2e36325d2666683d3126663d3130',
+		id: 'L306',
+		building: 'NDL',
+		floor: 3
+	},
+	L311: {
+		ical: 'https://planning-2324.isep.fr/Telechargements/ical/Edt_L311.ics?version=2023.0.7.0&icalsecurise=6EBDFEE851E2ABA6D3BBE95A8CCA8314EA415AFFD977E8B2136662A60664009650D0205B44C9C87AE778F9896152024E&param=643d5b312e2e36325d2666683d3126663d3130',
+		id: 'L311',
+		building: 'NDL',
+		floor: 3
+	},
+	L312: {
+		ical: 'https://planning-2324.isep.fr/Telechargements/ical/Edt_L312.ics?version=2023.0.7.0&icalsecurise=2B44A7996D07EA47FF19F0AEE5EE2648027240ADE6D876AD308A74F3A81189461E4681B4A64722833A23A5F9F661EEFF&param=643d5b312e2e36325d2666683d3126663d3130',
+		id: 'L312',
+		building: 'NDL',
+		floor: 3
+	},
+	L313: {
+		ical: 'https://planning-2324.isep.fr/Telechargements/ical/Edt_L313.ics?version=2023.0.7.0&icalsecurise=2B44A7996D07EA47FF19F0AEE5EE26488FAC2A0083FAD10C4A701B4AB91EE3C2E83E965B315B3B0EFDBEB7D7FC4C5FD9&param=643d5b312e2e36325d2666683d3126663d3130',
+		id: 'L313',
+		building: 'NDL',
+		floor: 3
+	},
+	L416: {
+		ical: 'https://planning-2324.isep.fr/Telechargements/ical/Edt_L416.ics?version=2023.0.7.0&icalsecurise=9C4D88A0347F58D3013A45766A7075A3D2F0681EAB29DCB38998F0BA10EF1F481C89370F1A614D6072F2D83D751C2176&param=643d5b312e2e36325d2666683d3126663d3130',
+		id: 'L416',
+		building: 'NDL',
+		floor: 4
+	},
+	L417: {
+		ical: 'https://planning-2324.isep.fr/Telechargements/ical/Edt_L417.ics?version=2023.0.7.0&icalsecurise=9B8F9E7BB01F83CE8A78EA7BF384C921F52C91E53C6CA1CCC5093FA31C5DC401BE567F623F448D24BB306E6EB4A054A1&param=643d5b312e2e36325d2666683d3126663d3130',
+		id: 'L417',
+		building: 'NDL',
+		floor: 4
 	}
 };
 
