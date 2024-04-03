@@ -1,10 +1,11 @@
 <script lang="ts">
-	import type { PageData } from '../$types';
-	import '@event-calendar/core/index.css';
-	import Calendar from '@event-calendar/core';
-	import ResourceTimeGrid from '@event-calendar/resource-time-grid';
 	import * as Breadcrumb from '$lib/components/ui/breadcrumb/index.js';
-	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js';
+	import '@event-calendar/core/index.css';
+	// @ts-ignore
+	import Calendar from '@event-calendar/core';
+	// @ts-ignore
+	import ResourceTimeGrid from '@event-calendar/resource-time-grid';
+	import type { PageData } from '../$types';
 
 	export let data: PageData;
 
