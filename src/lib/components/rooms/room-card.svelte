@@ -23,13 +23,12 @@
 		).toString();
 		const minutes = Math.trunc(((date.getTime() - now.getTime() + 1000 * 60) / (1000 * 60)) % 60)
 			.toString()
-			.padStart(2, '0');
 
 		if (hours == '0') {
 			return `${minutes}min`;
 		}
 
-		return `${hours}h${minutes}`;
+		return `${hours}h${minutes.padStart(2, '0')}`;
 	}
 </script>
 
@@ -62,9 +61,9 @@
 							{#if response.room.status.currentEvent}
 								<p>{response.room.status.currentEvent.title}</p>
 								<p class="text-gray-500">
-									{new Date(response.room.status.currentEvent.start).toLocaleTimeString()} - {new Date(
+									{new Date(response.room.status.currentEvent.start).toLocaleTimeString('fr')} - {new Date(
 										response.room.status.currentEvent.end
-									).toLocaleTimeString()}
+									).toLocaleTimeString('fr')}
 								</p>
 							{:else}
 								<span class="text-gray-500">No events today</span>
