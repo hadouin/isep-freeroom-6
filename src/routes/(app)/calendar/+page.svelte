@@ -1,13 +1,12 @@
 <script lang="ts">
 	import * as Breadcrumb from '$lib/components/ui/breadcrumb';
+	import type { Event } from '$lib/events';
+	import type { Resource } from '$lib/resources';
 	import '@event-calendar/core/index.css';
 	// @ts-ignore
 	import Calendar from '@event-calendar/core';
-	// @ts-ignore
+	//@ts-ignore
 	import ResourceTimeGrid from '@event-calendar/resource-time-grid';
-	import type { Resource } from '$lib/resources';
-	import type { Event } from '$lib/events';
-	import { onMount } from 'svelte';
 
 	$: roomsPromise = (async function () {
 		const res = await fetch('/api/rooms');
@@ -56,14 +55,16 @@
 			{plugins}
 			options={{
 				view: 'resourceTimeGridDay',
-				events: response.map((room) => {
-					return room.events;
-				}).flat(),
+				events: response
+					.map((room) => {
+						return parseEvents(room.events);
+					})
+					.flat(),
 				resources: response.map((room) => {
 					return room.resource;
 				}),
-				slotMinTime: '07:00:00',
-				slotMaxTime: '21:00:00',
+				slotMinTime: '07:30:00',
+				slotMaxTime: '22:00:00',
 				allDaySlot: false,
 				nowIndicator: true,
 				locale: 'fr'
@@ -72,5 +73,4 @@
 	{:catch error}
 		<p>Error</p>
 	{/await}
-
 </main>
