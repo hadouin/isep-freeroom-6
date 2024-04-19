@@ -8,10 +8,10 @@
 <main
 	class="flex flex-col items-center justify-center flex-1 gap-4 p-4 overflow-scroll md:gap-8 md:p-8"
 >
-	<h1 class="text-xl">Welcome to freeroom</h1>
+	<h1 class="text-xl">Bienvenue sur FreeRoom</h1>
 	<Card.Root>
 		<Card.Header>
-			<Card.Title>Find a room</Card.Title>
+			<Card.Title>Trouver une salle</Card.Title>
 		</Card.Header>
 		<Card.Content>
 			<div class="w-full">
@@ -32,7 +32,7 @@
 					</div>
 					<div>
 						<Card.Title>Voir tout</Card.Title>
-						<Card.Description>liste de toutes les salles</Card.Description>
+						<Card.Description>Liste de toutes les salles</Card.Description>
 					</div>
 				</div>
 			</Card.Header>

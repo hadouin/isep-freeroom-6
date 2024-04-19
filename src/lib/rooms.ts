@@ -14,7 +14,7 @@ export async function fetchRoomCalendarFromID(
 				id: string;
 				floor: number;
 				resource: PlainResource;
-				events: import('c:/Users/HLY5/VSCProjects/isep-freeroom-6/src/lib/events').PlainEvent[];
+				events: import('$lib/events').PlainEvent[];
 			};
 			ical: any;
 			error?: undefined;

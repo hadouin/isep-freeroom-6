@@ -1,7 +1,6 @@
 <script lang="ts">
-	import * as Breadcrumb from '$lib/components/ui/breadcrumb/index.js';
+	import * as Breadcrumb from '$lib/components/ui/breadcrumb';
 	import '@event-calendar/core/index.css';
-	// @ts-ignore
 	import Calendar from '@event-calendar/core';
 	// @ts-ignore
 	import ResourceTimeGrid from '@event-calendar/resource-time-grid';
@@ -21,8 +20,8 @@
 		}
 	})(data.roomID);
 
-	function parseEvents(events: any[]) {
-		return events.map((event: any) => {
+	function parseEvents(events: import('$lib/events').PlainEvent[]) {
+		return events.map((event: import('$lib/events').PlainEvent) => {
 			return {
 				...event,
 				start: new Date(event.start),
@@ -36,7 +35,7 @@
 	<Breadcrumb.Root>
 		<Breadcrumb.List>
 			<Breadcrumb.Item>
-				<Breadcrumb.Link href="/">Home</Breadcrumb.Link>
+				<Breadcrumb.Link href="/">Accueil</Breadcrumb.Link>
 			</Breadcrumb.Item>
 			<Breadcrumb.Separator />
 			<Breadcrumb.Item>
@@ -50,7 +49,7 @@
 	</Breadcrumb.Root>
 
 	{#await roomPromise}
-		<p>...waiting</p>
+		<p>Chargement...</p>
 	{:then response}
 		<Calendar
 			{plugins}
@@ -62,7 +61,8 @@
 				slotMaxTime: '21:00:00',
 				allDaySlot: false,
 				nowIndicator: true,
-				locale: 'fr'
+				locale: 'fr',
+				buttonText: {close: 'Fermer', dayGridMonth: 'mois', listDay: 'liste', listMonth: 'liste', listWeek: 'liste', listYear: 'liste', resourceTimeGridDay: 'jour', resourceTimeGridWeek: 'semaine', timeGridDay: 'jour', timeGridWeek: 'semaine', today: 'aujourd\'hui'}
 			}}
 		/>
 		<!-- <pre>{JSON.stringify(response, null, 2)}</pre> -->

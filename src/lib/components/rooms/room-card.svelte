@@ -66,7 +66,7 @@
 									).toLocaleTimeString('fr')}
 								</p>
 							{:else}
-								<span class="text-gray-500">No events today</span>
+								<span class="text-gray-500">Aucun évent aujourd'hui</span>
 							{/if}
 						{/await}
 					</Tooltip.Content>

@@ -6,15 +6,16 @@ import ICAL from 'ical.js';
  * Extracts calendar events from the given iCal data.
  *
  * @param icalRaw - The raw iCal data as a string.
+ * @param resourceIds
  * @returns An array of Event objects representing the extracted calendar events.
- * @throws If there is an error parsing the calendar data.
+ * @throws error Parsing the calendar data failed.
  */
 export function extractCalEvents(icalRaw: string, resourceIds: string[]): PlainEvent[] {
 	try {
 		const nextWeek = addWeeks(startOfDay(new Date()), 1);
 		const calData = ICAL.parse(icalRaw);
 		const subcomponents = new ICAL.Component(calData)
-			.getAllSubcomponents('vevent')
+			.getAllSubcomponents('')
 			.map((subcomp: any) => new ICAL.Event(subcomp));
 
 		const filteredEvents = subcomponents.filter((e: any) => {
@@ -29,17 +30,13 @@ export function extractCalEvents(icalRaw: string, resourceIds: string[]): PlainE
 
 			return isValidEvent && isWithinNextWeek;
 		});
-		const events: PlainEvent[] = filteredEvents.map((event: any): PlainEvent => {
-			const plainEvent: PlainEvent = {
-				id: `${event.uid}`,
-				resourceIds: resourceIds,
-				title: event.summary,
-				start: event.startDate.toJSDate(),
-				end: event.endDate.toJSDate()
-			};
-			return plainEvent;
-		});
-		return events;
+		return filteredEvents.map((event: any): PlainEvent => ({
+			id: `${event.uid}`,
+			resourceIds: resourceIds,
+			title: event.summary,
+			start: event.startDate.toJSDate(),
+			end: event.endDate.toJSDate()
+		}));
 	} catch (error) {
 		console.error('failed parsing calendar', error, icalRaw);
 		throw error;
