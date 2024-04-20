@@ -15,7 +15,7 @@ export function extractCalEvents(icalRaw: string, resourceIds: string[]): PlainE
 		const nextWeek = addWeeks(startOfDay(new Date()), 1);
 		const calData = ICAL.parse(icalRaw);
 		const subcomponents = new ICAL.Component(calData)
-			.getAllSubcomponents('')
+			.getAllSubcomponents('vevent')
 			.map((subcomp: any) => new ICAL.Event(subcomp));
 
 		const filteredEvents = subcomponents.filter((e: any) => {
