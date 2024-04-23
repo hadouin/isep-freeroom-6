@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { RoomCard } from '$lib/components/rooms';
-	import * as Breadcrumb from '$lib/components/ui/breadcrumb/index.js';
+	import * as Breadcrumb from '$lib/components/ui/breadcrumb';
 
 	export let data;
 </script>
@@ -9,7 +9,7 @@
 	<Breadcrumb.Root>
 		<Breadcrumb.List>
 			<Breadcrumb.Item>
-				<Breadcrumb.Link href="/">Home</Breadcrumb.Link>
+				<Breadcrumb.Link href="/">Accueil</Breadcrumb.Link>
 			</Breadcrumb.Item>
 			<Breadcrumb.Separator />
 			<Breadcrumb.Item>

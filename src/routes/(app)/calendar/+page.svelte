@@ -19,8 +19,8 @@
 		}
 	})();
 
-	function parseEvents(events: any[]) {
-		return events.map((event: any) => {
+	function parseEvents(events: import('$lib/events').PlainEvent[]) {
+		return events.map((event: import('$lib/events').PlainEvent) => {
 			return {
 				...event,
 				start: new Date(event.start),
@@ -39,7 +39,7 @@
 	<Breadcrumb.Root>
 		<Breadcrumb.List>
 			<Breadcrumb.Item>
-				<Breadcrumb.Link href="/">Home</Breadcrumb.Link>
+				<Breadcrumb.Link href="/">Accueil</Breadcrumb.Link>
 			</Breadcrumb.Item>
 			<Breadcrumb.Separator />
 			<Breadcrumb.Item>
@@ -49,7 +49,7 @@
 	</Breadcrumb.Root>
 
 	{#await roomsPromise}
-		<p>...waiting</p>
+		<p>Chargement...</p>
 	{:then response}
 		<Calendar
 			{plugins}
