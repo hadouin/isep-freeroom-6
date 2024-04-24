@@ -1,3 +1,9 @@
-export async function load({ params }: { fetch: any; params: { roomID: string } }) {
-	return { roomID: params.roomID };
+import type { PageLoad } from './$types'
+
+export const load: PageLoad = async ({ params }) => {
+	const { roomID } = params
+	return {
+		title: 'Salle ' + roomID,
+		roomID,
+	}
 }
