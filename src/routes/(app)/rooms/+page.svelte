@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { RoomCard } from '$lib/components/rooms';
+	// noinspection ES6UnusedImports
 	import * as Breadcrumb from '$lib/components/ui/breadcrumb';
 
 	export let data;
@@ -17,8 +18,9 @@
 			</Breadcrumb.Item>
 		</Breadcrumb.List>
 	</Breadcrumb.Root>
-
-	{#each data.rooms as room}
-		<RoomCard roomId={room.id} />
-	{/each}
+	<div class="grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-4">
+		{#each data.rooms as roomID}
+			<RoomCard roomId={roomID} />
+		{/each}
+	</div>
 </main>

@@ -51,7 +51,7 @@
 				</Sheet.Content>
 			</Sheet.Root>
 			<div class="flex-1 w-full">
-				<SearchBar className="md:w-2/3 lg:w-1/3"></SearchBar>
+				<SearchBar className="md:w-2/3 lg:w-1/2 xl:w-1/3"></SearchBar>
 			</div>
 			<Dropdown.Root>
 				<Dropdown.Trigger asChild let:builder>

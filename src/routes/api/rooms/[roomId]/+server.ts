@@ -1,16 +1,16 @@
 import type { PlainEvent } from '$lib/events';
-import { fetchRoomCalendarFromID } from '$lib/rooms';
+import { fetchRoomCalendarFromID, type RoomCalendar } from '$lib/rooms';
 import { error, json } from '@sveltejs/kit';
 import { isBefore, isSameDay, isWithinInterval } from 'date-fns';
 
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ fetch, params }) {
 	try {
-		const roomResponse = await fetchRoomCalendarFromID(params.roomId, fetch);
+		const roomResponse: RoomCalendar = await fetchRoomCalendarFromID(params.roomId, fetch);
 
 		const room = {
 			...roomResponse.room,
-			status: roomStatus(new Date(), roomResponse.room?.events || [])
+			status: roomStatus(new Date(), roomResponse.room?.events || []),
 		};
 
 		return json({ room, status: roomResponse.status });
@@ -24,9 +24,7 @@ function roomStatus(
 	events: PlainEvent[]
 ): { free: boolean; currentEvent: PlainEvent | null } {
 	const filtered = events
-		.filter((e) => {
-			return isSameDay(date, new Date(e.start));
-		})
+		.filter((e) => isSameDay(date, new Date(e.start)))
 		.sort((a, b) => (a.start > b.start ? 1 : -1));
 
 	for (const event of filtered) {

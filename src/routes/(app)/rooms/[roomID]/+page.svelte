@@ -1,24 +1,30 @@
 <script lang="ts">
+	// noinspection ES6UnusedImports
 	import * as Breadcrumb from '$lib/components/ui/breadcrumb';
 	import '@event-calendar/core/index.css';
+	// @ts-ignore
 	import Calendar from '@event-calendar/core';
 	// @ts-ignore
 	import ResourceTimeGrid from '@event-calendar/resource-time-grid';
-	import type { PageData } from '../$types';
+	import type { RoomCalendar } from '$lib/rooms';
+	import { calendarOptions } from '$lib/calendar';
+	import { Loader } from '$lib/components/loader';
 
-	export let data: PageData;
+	export let data;
 
 	let plugins = [ResourceTimeGrid];
 
 	$: roomPromise = (async function getRoomById(roomID: string) {
-		const res = await fetch('/api/rooms/' + roomID);
-		const value = await res.json();
-		if (res.ok) {
-			return value;
-		} else {
-			throw new Error(res.status + res.statusText);
-		}
+		return fetch('/api/rooms/' + roomID)
+			.then(async (res) => res.ok ?
+				(await res.json()) as RoomCalendar
+				: Promise.reject(new Error(res.status + res.statusText)));
 	})(data.roomID);
+
+	const formatTime = (date: Date) => {
+		const hours = date.getHours().toString().padStart(2, '0');
+		return `${hours}:00`;
+	};
 
 	function parseEvents(events: import('$lib/events').PlainEvent[]) {
 		return events.map((event: import('$lib/events').PlainEvent) => {
@@ -49,23 +55,22 @@
 	</Breadcrumb.Root>
 
 	{#await roomPromise}
-		<p>Chargement...</p>
+		<Loader />
 	{:then response}
-		<Calendar
-			{plugins}
-			options={{
+		{#if !response.room}
+			<p class="text-lg">{response.status}</p>
+		{:else}
+			<Calendar
+				{plugins}
+				options={{
+				...calendarOptions,
 				view: 'resourceTimeGridDay',
 				events: parseEvents(response.room.events),
 				resources: [response.room.resource],
-				slotMinTime: '07:00:00',
-				slotMaxTime: '21:00:00',
-				allDaySlot: false,
-				nowIndicator: true,
-				locale: 'fr',
-				buttonText: {close: 'Fermer', dayGridMonth: 'mois', listDay: 'liste', listMonth: 'liste', listWeek: 'liste', listYear: 'liste', resourceTimeGridDay: 'jour', resourceTimeGridWeek: 'semaine', timeGridDay: 'jour', timeGridWeek: 'semaine', today: 'aujourd\'hui'}
 			}}
-		/>
-		<!-- <pre>{JSON.stringify(response, null, 2)}</pre> -->
+			/>
+			<!-- <pre>{JSON.stringify(response, null, 2)}</pre> -->
+		{/if}
 	{:catch error}
 		<p>Error</p>
 	{/await}
