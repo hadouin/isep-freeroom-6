@@ -66,6 +66,11 @@
 					options={{
 						...calendarOptions,
 						view: 'resourceTimeGridDay',
+						headerToolbar: {
+							start: '',
+							center: 'title',
+							end: 'prev,next today',
+						},
 						events: rooms?.map((room) => parseEvents(room?.events)).flat(),
 						resources: rooms?.map((room) => room.resource),
 				}}
