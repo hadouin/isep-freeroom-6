@@ -9,6 +9,10 @@
 
 	import SearchBar from '$lib/components/search/search-bar.svelte'
 	import NavBarItem from '$lib/components/ui/NavBarItem.svelte'
+	import { navigating } from '$app/stores'
+
+	let open = false;
+	$: if ($navigating) open = false;
 </script>
 
 <div class="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
@@ -31,7 +35,7 @@
 	</div>
 	<div class="flex flex-col h-screen">
 		<header class="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
-			<Sheet.Root>
+			<Sheet.Root bind:open>
 				<Sheet.Trigger asChild let:builder>
 					<Button builders={[builder]} class="shrink-0 md:hidden" size="icon" variant="outline">
 						<Menu class="w-5 h-5" />
@@ -40,10 +44,12 @@
 				</Sheet.Trigger>
 				<Sheet.Content class="flex flex-col" side="left">
 					<nav class="grid gap-2 text-lg font-medium">
-						<a class="flex items-center gap-2 text-lg font-semibold" href="##">
-							<Building2 class="w-6 h-6" />
-							<span class="">FreeRoom</span>
-						</a>
+						<div class="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
+							<a class="flex items-center gap-2 text-lg font-semibold" href="/">
+								<Building2 class="w-6 h-6" />
+								<span class="">FreeRoom</span>
+							</a>
+						</div>
 						<NavBarItem href="/" icon={Home} label="Home" />
 						<NavBarItem href="/rooms" icon={DoorOpen} label="Salles" />
 						<NavBarItem href="/calendar" icon={Calendar} label="Calendrier" />
@@ -51,7 +57,7 @@
 				</Sheet.Content>
 			</Sheet.Root>
 			<div class="flex-1 w-full">
-				<SearchBar className="md:w-2/3 lg:w-1/3"></SearchBar>
+				<SearchBar className="md:w-2/3 lg:w-1/2 xl:w-1/3"></SearchBar>
 			</div>
 			<Dropdown.Root>
 				<Dropdown.Trigger asChild let:builder>
