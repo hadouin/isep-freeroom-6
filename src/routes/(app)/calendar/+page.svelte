@@ -72,7 +72,10 @@
 							end: 'prev,next today',
 						},
 						events: rooms?.map((room) => parseEvents(room?.events)).flat(),
-						resources: rooms?.map((room) => room.resource),
+						resources: rooms?.map(({ resource }) => ({
+							id: resource.id,
+							title: {html: `<a href="rooms/${resource.id}">${resource.title}</a>`}
+						})),
 				}}
 				/>
 			{/if}
