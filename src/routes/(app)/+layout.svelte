@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { Building2, Calendar, CircleUser, DoorOpen, Home, Menu } from 'lucide-svelte'
 
+	import { toggleMode } from 'mode-watcher'
 	import { Button } from '$lib/components/ui/button'
 	// noinspection ES6UnusedImports
 	import * as Dropdown from '$lib/components/ui/dropdown-menu'
@@ -69,6 +70,10 @@
 				<Dropdown.Content align="end">
 					<Dropdown.Label>Mon Compte</Dropdown.Label>
 					<Dropdown.Separator />
+					<Dropdown.Item on:click={toggleMode}>Mode&nbsp;
+						<span class="hidden dark:inline">claire</span>
+						<span class="dark:hidden">sombre</span>
+					</Dropdown.Item>
 					<Dropdown.Item>Paramètres</Dropdown.Item>
 					<Dropdown.Item>Support</Dropdown.Item>
 					<Dropdown.Separator />
