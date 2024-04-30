@@ -6,35 +6,16 @@
 	import Calendar from '@event-calendar/core';
 	// @ts-ignore
 	import ResourceTimeGrid from '@event-calendar/resource-time-grid';
-	import type { RoomCalendar } from '$lib/rooms';
-	import { calendarOptions } from '$lib/calendar';
+	import { calendarOptions, parseEvents } from '$lib/calendar';
 	import { Loader } from '$lib/components/loader';
+	import { getRoomById } from '$lib/rooms';
 
 	export let data;
 
 	let plugins = [ResourceTimeGrid];
 
-	$: roomPromise = (async function getRoomById(roomID: string) {
-		return fetch('/api/rooms/' + roomID)
-			.then(async (res) => res.ok ?
-				(await res.json()) as RoomCalendar
-				: Promise.reject(new Error(res.status + res.statusText)));
-	})(data.roomID);
+	$: roomPromise = (async (roomID: string) => await getRoomById(roomID))(data.roomID);
 
-	const formatTime = (date: Date) => {
-		const hours = date.getHours().toString().padStart(2, '0');
-		return `${hours}:00`;
-	};
-
-	function parseEvents(events: import('$lib/events').PlainEvent[]) {
-		return events.map((event: import('$lib/events').PlainEvent) => {
-			return {
-				...event,
-				start: new Date(event.start),
-				end: new Date(event.end)
-			};
-		});
-	}
 </script>
 
 <main class="flex flex-col flex-1 gap-4 p-4 overflow-scroll md:gap-8 md:p-8">
@@ -58,7 +39,7 @@
 		<Loader />
 	{:then response}
 		{#if !response.room}
-			<p class="text-lg">{response.status}</p>
+			<p class="text-lg">{response.error}</p>
 		{:else}
 			<Calendar
 				{plugins}

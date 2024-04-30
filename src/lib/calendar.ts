@@ -1,11 +1,20 @@
-import type { PlainEvent } from '$lib/events';
+import type { Event, PlainEvent } from '$lib/events';
 import { addWeeks, isWithinInterval, startOfDay } from 'date-fns';
 import ICAL from 'ical.js';
 
-const dateOptions = { timeZone: 'Europe/Paris', dateStyle: 'medium', timeStyle: 'short' };
+export const dateOptions: Intl.DateTimeFormatOptions = {
+	timeZone: 'Europe/Paris',
+	dateStyle: 'medium',
+	timeStyle: 'short',
+};
+
+export const timeOptions: Intl.DateTimeFormatOptions = {
+	timeZone: 'Europe/Paris',
+	timeStyle: 'short',
+};
 
 export const calendarOptions = {
-	eventClick: ({ event }: { event: any }) =>
+	eventClick: ({ event }: { event: Event }) =>
 		alert(`${event.title}\n
 Salle: ${event.resourceIds[0]}
 Début: ${event.start?.toLocaleString('fr-FR', dateOptions)} (Europe/Paris)
@@ -30,6 +39,14 @@ Fin:   ${event.end?.toLocaleString('fr-FR', dateOptions)} (Europe/Paris)`),
 	},
 	titleFormat: { month: 'long', day: 'numeric', year: 'numeric', weekday: 'long' },
 };
+
+export function parseEvents(events: PlainEvent[]) {
+	return events.map((event: PlainEvent) => ({
+		...event,
+		start: new Date(event.start),
+		end: new Date(event.end),
+	}));
+}
 
 /**
  * Extracts calendar events from the given iCal data.

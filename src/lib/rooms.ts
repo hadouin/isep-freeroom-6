@@ -9,12 +9,21 @@ export interface Room {
 	floor: number;
 	resource: PlainResource;
 	events: PlainEvent[];
+	availability?: { isFree: boolean; currentEvent?: PlainEvent };
 }
 
 export interface RoomCalendar {
 	status: number;
 	room?: Room;
 	error?: string;
+}
+
+export async function getRoomById(roomID: string) {
+	return fetch('/api/rooms/' + roomID).then(async (res) =>
+		res.ok
+			? ((await res.json()) as RoomCalendar)
+			: Promise.reject(new Error(res.status + res.statusText))
+	);
 }
 
 export async function fetchRoomCalendarFromID(

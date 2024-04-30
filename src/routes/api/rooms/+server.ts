@@ -13,7 +13,7 @@ export async function GET({ fetch, url }) {
 
 		// for each room, fetch the calendar
 		const calendars: PromiseSettledResult<RoomCalendar>[] = await Promise.allSettled(
-			rooms.map(async ([roomID]) => fetchRoomCalendarFromID(roomID, fetch))
+			rooms.map(async ([roomID]): Promise<RoomCalendar> => fetchRoomCalendarFromID(roomID, fetch))
 		);
 
 		const successfulRooms = calendars

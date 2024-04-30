@@ -12,7 +12,7 @@
 	// @ts-ignore
 	import ResourceTimeGrid from '@event-calendar/resource-time-grid';
 	import { Building } from '$lib/rooms-config';
-	import { calendarOptions } from '$lib/calendar';
+	import { calendarOptions, parseEvents } from '$lib/calendar';
 	import { Loader } from '$lib/components/loader';
 
 	let isLoading = false;
@@ -27,16 +27,6 @@
 				: Promise.reject(new Error(res.status + res.statusText)))
 			.finally(() => isLoading = false);
 	})(selectedBuilding);
-
-	function parseEvents(events: import('$lib/events').PlainEvent[]) {
-		return events.map((event: import('$lib/events').PlainEvent) => {
-			return {
-				...event,
-				start: new Date(event.start),
-				end: new Date(event.end)
-			};
-		});
-	}
 
 	let plugins = [ResourceTimeGrid];
 
