@@ -19,8 +19,9 @@ export const calendarOptions = {
 Salle: ${event.resourceIds[0]}
 Début: ${event.start?.toLocaleString('fr-FR', dateOptions)} (Europe/Paris)
 Fin:   ${event.end?.toLocaleString('fr-FR', dateOptions)} (Europe/Paris)`),
-	slotMinTime: '07:00',
-	slotMaxTime: '21:00',
+	slotMinTime: '08:00',
+	slotMaxTime: '18:00',
+	flexibleSlotTimeLimits: true,
 	allDaySlot: false,
 	nowIndicator: true,
 	locale: 'fr',
