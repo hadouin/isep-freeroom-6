@@ -3,7 +3,7 @@ import { extractCalEvents } from './calendar';
 import type { PlainResource } from './resources';
 import { buildCalendarUrl, ROOM_CONFIG, type RoomConfig } from './rooms-config';
 import type { PlainEvent } from '$lib/events';
-import type { Room as PrismaRoom } from '@prisma/client';
+import type { Event as PrismaEvent, Room as PrismaRoom } from '@prisma/client';
 
 export interface Room {
   id: string;
@@ -55,7 +55,7 @@ export async function fetchRoomCalendarFromID(
   }
 }
 
-export async function getRoomCalendar(room: PrismaRoom) {
+export async function getRoomCalendar(room: PrismaRoom): Promise<Omit<PrismaEvent, 'roomId'>[]> {
   try {
     console.time('Fetching: ' + room.roomId);
     const res = await fetch(buildCalendarUrl(room.roomId, room.icalsecurise));

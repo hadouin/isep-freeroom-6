@@ -11,7 +11,7 @@ export interface Event {
   display: 'auto' | 'background';
   backgroundColor: string;
   textColor: string;
-  extendedProps: Object;
+  extendedProps: object;
 }
 
 export interface PlainEvent {
@@ -27,5 +27,5 @@ export interface PlainEvent {
   display?: 'auto' | 'background';
   backgroundColor?: string;
   textColor?: string;
-  extendedProps?: Object;
+  extendedProps?: object;
 }

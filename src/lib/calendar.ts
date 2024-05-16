@@ -1,6 +1,7 @@
 import type { Event, PlainEvent } from '$lib/events';
 import { addWeeks, isWithinInterval, startOfDay } from 'date-fns';
 import ICAL from 'ical.js';
+import type { Event as PrismaEvent } from '@prisma/client';
 
 export const dateOptions: Intl.DateTimeFormatOptions = {
   timeZone: 'Europe/Paris',
@@ -57,7 +58,7 @@ export function parseEvents(events: PlainEvent[]) {
  * @returns An array of Event objects representing the extracted calendar events.
  * @throws error Parsing the calendar data failed.
  */
-export function extractCalEvents(icalRaw: string, resourceIds: string[]) {
+export function extractCalEvents(icalRaw: string, resourceIds: string[]): Omit<PrismaEvent, 'roomId'>[] {
   try {
     const nextWeek: Date = addWeeks(startOfDay(new Date()), 1);
     const calData = ICAL.parse(icalRaw);
@@ -77,15 +78,16 @@ export function extractCalEvents(icalRaw: string, resourceIds: string[]) {
 
       return isValidEvent && isWithinNextWeek;
     });
-    return filteredEvents.map((event: ICAL.Event) => ({
-      // roomId: resourceIds[0],
-      id: `${event.uid}`,
-      resourceIds: resourceIds,
-      title: event.summary,
-      start: event.startDate.toJSDate(),
-      end: event.endDate.toJSDate(),
-      // allDay: event.summary === 'Férié',
-    }));
+    return filteredEvents.map(
+      (event: ICAL.Event): Omit<PrismaEvent, 'roomId'> => ({
+        id: `${event.uid}`,
+        resourceIds: resourceIds,
+        title: event.summary,
+        start: event.startDate.toJSDate(),
+        end: event.endDate.toJSDate(),
+        // allDay: event.summary === 'Férié',
+      })
+    );
   } catch (error) {
     console.error('failed parsing calendar', error, icalRaw);
     throw error;
