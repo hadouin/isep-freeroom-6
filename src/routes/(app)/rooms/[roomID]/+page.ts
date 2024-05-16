@@ -1,9 +1,9 @@
-import type { PageLoad } from './$types'
+import type { PageLoad } from './$types';
 
 export const load: PageLoad = async ({ params }) => {
-	const { roomID } = params
-	return {
-		title: 'Salle ' + roomID,
-		roomID,
-	}
-}
+  const { roomID } = params;
+  return {
+    title: 'Salle ' + roomID,
+    roomID,
+  };
+};
