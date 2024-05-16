@@ -11,7 +11,7 @@
   import Calendar from '@event-calendar/core';
   // @ts-ignore
   import ResourceTimeGrid from '@event-calendar/resource-time-grid';
-  import { Building } from '$lib/rooms-config';
+  import { Building } from '@prisma/client';
   import { calendarOptions, parseEvents } from '$lib/calendar';
   import { Loader } from '$lib/components/loader';
 

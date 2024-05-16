@@ -57,7 +57,7 @@ export function parseEvents(events: PlainEvent[]) {
  * @returns An array of Event objects representing the extracted calendar events.
  * @throws error Parsing the calendar data failed.
  */
-export function extractCalEvents(icalRaw: string, resourceIds: string[]): PlainEvent[] {
+export function extractCalEvents(icalRaw: string, resourceIds: string[]) {
   try {
     const nextWeek: Date = addWeeks(startOfDay(new Date()), 1);
     const calData = ICAL.parse(icalRaw);
@@ -77,16 +77,15 @@ export function extractCalEvents(icalRaw: string, resourceIds: string[]): PlainE
 
       return isValidEvent && isWithinNextWeek;
     });
-    return filteredEvents.map(
-      (event: ICAL.Event): PlainEvent => ({
-        id: `${event.uid}`,
-        resourceIds: resourceIds,
-        title: event.summary,
-        start: event.startDate.toJSDate(),
-        end: event.endDate.toJSDate(),
-        // allDay: event.summary === 'Férié',
-      })
-    );
+    return filteredEvents.map((event: ICAL.Event) => ({
+      // roomId: resourceIds[0],
+      id: `${event.uid}`,
+      resourceIds: resourceIds,
+      title: event.summary,
+      start: event.startDate.toJSDate(),
+      end: event.endDate.toJSDate(),
+      // allDay: event.summary === 'Férié',
+    }));
   } catch (error) {
     console.error('failed parsing calendar', error, icalRaw);
     throw error;

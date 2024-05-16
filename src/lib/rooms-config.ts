@@ -1,28 +1,15 @@
+import { Building, Floor } from '@prisma/client';
+
 export interface RoomConfig {
-  title: string;
-  floor: number;
   icalsecurise: string;
-  building: string;
+  title: string;
+  building: Building;
+  floor: Floor;
 }
 
 export type SerializedRooms = {
   [roomID: string]: RoomConfig;
 };
-
-export enum Building {
-  NDC = 'NDC',
-  NDL = 'NDL',
-}
-
-export enum Floor {
-  GF,
-  FIRST,
-  SECOND,
-  THIRD,
-  FOURTH,
-  FIFTH,
-  SIXTH,
-}
 
 export function buildCalendarUrl(roomID: string, icalsecurise: string): string {
   const version = '2023.0.7.0';
@@ -156,25 +143,25 @@ export const ROOM_CONFIG: SerializedRooms = {
     icalsecurise: '6EBDFEE851E2ABA6D3BBE95A8CCA83145D14C744CF1F01E88758B06F3CE055FD6F4291E3A5E745E8C17DF4AB827F8F15',
     title: 'L012',
     building: Building.NDL,
-    floor: Floor.GF,
+    floor: Floor.GROUND,
   },
   L016: {
     icalsecurise: '80C220731616F3916EA72303C06CF3BA88300C4272A47AAEBAEE49A65CEB072E04CF7365D8AA874343F88B02F47D5AA4',
     title: 'Cloitre',
     building: Building.NDL,
-    floor: Floor.GF,
+    floor: Floor.GROUND,
   },
   L017: {
     icalsecurise: '9C4D88A0347F58D3013A45766A7075A356FFDFED09C93593C53AB6E1A747990C3E3EFE0E85164B7FA8AB2352FE2D4625',
     title: 'L017',
     building: Building.NDL,
-    floor: Floor.GF,
+    floor: Floor.GROUND,
   },
   L018: {
     icalsecurise: '9C4D88A0347F58D3013A45766A7075A3027BC142B7759292A79AC93F25693915A1813D335BA4DB2860BEC0EDF740D8B1',
     title: 'L018',
     building: Building.NDL,
-    floor: Floor.GF,
+    floor: Floor.GROUND,
   },
   L108: {
     icalsecurise: '0116C13A9A5DD4A01EC6C1005F2C0A5E19C411A2700829A1F8C1E8E0EF18E895D6FD38662B6FE145C4A29FDAE0630DE7',

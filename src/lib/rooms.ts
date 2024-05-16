@@ -3,10 +3,11 @@ import { extractCalEvents } from './calendar';
 import type { PlainResource } from './resources';
 import { buildCalendarUrl, ROOM_CONFIG, type RoomConfig } from './rooms-config';
 import type { PlainEvent } from '$lib/events';
+import type { Room as PrismaRoom } from '@prisma/client';
 
 export interface Room {
   id: string;
-  floor: number;
+  floor: string;
   resource: PlainResource;
   events: PlainEvent[];
   availability?: { isFree: boolean; currentEvent?: PlainEvent };
@@ -51,6 +52,20 @@ export async function fetchRoomCalendarFromID(
   } catch (e) {
     console.error(`could not retrieve the calendar for room: ${roomID}`, e);
     throw error(500, 'Could not retrieve the calendar for room: ' + roomID);
+  }
+}
+
+export async function getRoomCalendar(room: PrismaRoom) {
+  try {
+    console.time('Fetching: ' + room.roomId);
+    const res = await fetch(buildCalendarUrl(room.roomId, room.icalsecurise));
+    const data: string = await res.text();
+    console.timeEnd('Fetching: ' + room.roomId);
+
+    return extractCalEvents(data, [room.roomId]);
+  } catch (e) {
+    console.error(`could not retrieve the calendar for room: ${room.roomId}`, e);
+    throw error(500, 'Could not retrieve the calendar for room: ' + room.roomId);
   }
 }
 

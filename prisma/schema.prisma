@@ -1,0 +1,59 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["omitApi"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DB_URL")
+}
+
+model Event {
+  id          String   @id // @default(uuid())
+  resourceIds String[]
+  title       String
+  start       DateTime
+  end         DateTime
+  // allDay           Boolean?
+  // editable         Boolean?
+  // startEditable    Boolean?
+  // durationEditable Boolean?
+  // display     String? // 'auto' | 'background'
+  // backgroundColor  String?
+  // textColor        String?
+  // extendedProps    object?
+  room        Room?    @relation(fields: [roomId], references: [roomId])
+  roomId      String?
+}
+
+model Room {
+  roomId       String   @id
+  icalsecurise String
+  title        String
+  building     Building
+  floor        Floor
+  // ressource    Json
+  event        Event[]
+}
+
+enum Building {
+  NDC
+  NDL
+}
+
+enum Floor {
+  GROUND
+  FIRST
+  SECOND
+  THIRD
+  FOURTH
+  FIFTH
+  SIXTH
+}
+
+// model User {
+//   id       String @id @default(uuid())
+//   email    String @unique
+//   name     String
+//   password String
+// }

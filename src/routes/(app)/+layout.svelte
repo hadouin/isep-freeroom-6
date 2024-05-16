@@ -71,7 +71,7 @@
           <Dropdown.Label>Mon Compte</Dropdown.Label>
           <Dropdown.Separator />
           <Dropdown.Item on:click={toggleMode}
-          >Mode&nbsp;
+            >Mode&nbsp;
             <span class="hidden dark:inline">claire</span>
             <span class="dark:hidden">sombre</span>
           </Dropdown.Item>
