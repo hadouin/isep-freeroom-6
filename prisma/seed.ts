@@ -7,15 +7,13 @@ import { getRoomCalendar } from '../src/lib/rooms';
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log(`Start seeding ...`);
-
   Object.entries(ROOM_CONFIG).map(async ([roomId, roomConfig]) => {
     await prisma.room.create({
       data: {
         roomId,
         ...roomConfig,
         // resource: { roomId, title: roomConfig.title },
-        event: { createMany: { data: await getRoomCalendar({ roomId, ...roomConfig }) } },
+        events: { createMany: { data: await getRoomCalendar({ roomId, ...roomConfig }) } },
       },
     });
   });
@@ -26,6 +24,7 @@ main()
     await prisma.$disconnect();
   })
   .catch(async (e) => {
+    // eslint-disable-next-line no-console
     console.error(e);
     await prisma.$disconnect();
     process.exit(1);

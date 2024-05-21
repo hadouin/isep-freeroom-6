@@ -4,8 +4,8 @@ import { json } from '@sveltejs/kit';
 import { isBefore, isSameDay, isWithinInterval } from 'date-fns';
 
 /** @type {import('./$types').RequestHandler} */
-export async function GET({ fetch, params }) {
-  const roomResponse: RoomCalendar = await fetchRoomCalendarFromID(params.roomId, fetch);
+export async function GET({ params }) {
+  const roomResponse: RoomCalendar = await fetchRoomCalendarFromID(params.roomId);
 
   if (!roomResponse.room) return json(roomResponse);
 

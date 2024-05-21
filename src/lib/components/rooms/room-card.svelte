@@ -63,7 +63,7 @@
               {/await}
             </Tooltip.Content>
           </Tooltip.Root>
-        {:catch error}
+        {:catch _error}
           <p style="color: red">Erreur lors de la récuperation du calendrier</p>
         {/await}
       </Card.Description>

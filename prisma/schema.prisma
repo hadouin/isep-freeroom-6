@@ -1,6 +1,6 @@
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["omitApi"]
+  previewFeatures = ["omitApi"] // "relationJoins"
 }
 
 datasource db {
@@ -14,16 +14,12 @@ model Event {
   title       String
   start       DateTime
   end         DateTime
-  // allDay           Boolean?
-  // editable         Boolean?
-  // startEditable    Boolean?
-  // durationEditable Boolean?
-  // display     String? // 'auto' | 'background'
-  // backgroundColor  String?
-  // textColor        String?
-  // extendedProps    object?
   room        Room?    @relation(fields: [roomId], references: [roomId])
   roomId      String?
+  // allDay           Boolean?
+  // display          String? // 'auto' | 'background'
+  // backgroundColor  String?
+  // textColor        String?
 }
 
 model Room {
@@ -33,7 +29,7 @@ model Room {
   building     Building
   floor        Floor
   // ressource    Json
-  event        Event[]
+  events       Event[]
 }
 
 enum Building {

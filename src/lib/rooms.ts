@@ -25,10 +25,7 @@ export async function getRoomById(roomID: string) {
   );
 }
 
-export async function fetchRoomCalendarFromID(
-  roomID: string,
-  fetch: Function = globalThis.fetch
-): Promise<RoomCalendar> {
+export async function fetchRoomCalendarFromID(roomID: string): Promise<RoomCalendar> {
   const roomConfig: RoomConfig = ROOM_CONFIG[roomID];
   if (!roomConfig) {
     return { status: 404, error: 'Room not found' };

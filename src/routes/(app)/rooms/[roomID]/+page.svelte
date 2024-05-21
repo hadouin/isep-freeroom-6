@@ -2,9 +2,7 @@
   // noinspection ES6UnusedImports
   import * as Breadcrumb from '$lib/components/ui/breadcrumb';
   import '@event-calendar/core/index.css';
-  // @ts-ignore
   import Calendar from '@event-calendar/core';
-  // @ts-ignore
   import ResourceTimeGrid from '@event-calendar/resource-time-grid';
   import { calendarOptions, parseEvents } from '$lib/calendar';
   import { Loader } from '$lib/components/loader';
@@ -56,7 +54,7 @@
       />
       <!-- <pre>{JSON.stringify(response, null, 2)}</pre> -->
     {/if}
-  {:catch error}
+  {:catch _error}
     <p>Error</p>
   {/await}
 </main>

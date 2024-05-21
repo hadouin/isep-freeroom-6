@@ -3,20 +3,15 @@
   import * as Breadcrumb from '$lib/components/ui/breadcrumb';
   // noinspection ES6UnusedImports
   import * as Tabs from '$lib/components/ui/tabs';
-  import type { Event } from '$lib/events';
-  import type { Resource } from '$lib/resources';
-  import type { Room } from '$lib/rooms';
   import '@event-calendar/core/index.css';
-  // @ts-ignore
   import Calendar from '@event-calendar/core';
-  // @ts-ignore
   import ResourceTimeGrid from '@event-calendar/resource-time-grid';
-  import { Building } from '@prisma/client';
-  import { calendarOptions, parseEvents } from '$lib/calendar';
+  import { Building, type Event, type Room } from '@prisma/client';
+  import { calendarOptions } from '$lib/calendar';
   import { Loader } from '$lib/components/loader';
 
   let isLoading = false;
-  let rooms: Room[] = [];
+  let rooms: ({events: Event[]} & Room)[] = [];
   let selectedBuilding = Building.NDC;
 
   $: roomsPromise = (async (building: Building): Promise<void> => {
@@ -29,9 +24,6 @@
   })(selectedBuilding);
 
   let plugins = [ResourceTimeGrid];
-
-  let events: Event[] = [];
-  let resources: Resource[] = [];
 </script>
 
 <main class="flex flex-1 flex-col gap-4 overflow-scroll p-4 md:gap-8 md:p-8">
@@ -71,15 +63,15 @@
               center: 'title',
               end: 'prev,next today',
             },
-            events: rooms?.map((room) => parseEvents(room?.events)).flat(),
-            resources: rooms?.map(({ resource }) => ({
-              id: resource.id,
-              title: { html: `<a href="rooms/${resource.id}">${resource.title}</a>` },
+            events: rooms?.map(({ events }) => events).flat(),
+            resources: rooms?.map(({ roomId, title }) => ({
+              id: roomId,
+              title: { html: `<a href="rooms/${roomId}">${title}</a>` },
             })),
           }}
         />
       {/if}
-    {:catch error}
+    {:catch _error}
       <p>Error</p>
     {/await}
   </Tabs.Root>
