@@ -11,15 +11,15 @@ datasource db {
 model Event {
   id          String   @id // @default(uuid())
   resourceIds String[]
-  title       String
+  // allDay           Boolean?
   start       DateTime
   end         DateTime
-  room        Room?    @relation(fields: [roomId], references: [roomId])
-  roomId      String?
-  // allDay           Boolean?
+  title       String
   // display          String? // 'auto' | 'background'
   // backgroundColor  String?
   // textColor        String?
+  room        Room     @relation(fields: [roomId], references: [roomId], onDelete: Cascade)
+  roomId      String
 }
 
 model Room {
