@@ -8,13 +8,13 @@ export interface RoomConfig {
 }
 
 export type SerializedRooms = {
-  [roomID: string]: RoomConfig;
+  [roomId: string]: RoomConfig;
 };
 
-export function buildCalendarUrl(roomID: string, icalsecurise: string): string {
+export function buildCalendarUrl(roomId: string, icalsecurise: string): string {
   const version = '2023.0.7.0';
   const param = '643d5b312e2e36325d2666683d3126663d3130';
-  return `https://planning.isep.fr/Telechargements/ical/Edt_${roomID}.ics?version=${version}&icalsecurise=${icalsecurise}&param=${param}`;
+  return `https://planning.isep.fr/Telechargements/ical/Edt_${roomId}.ics?version=${version}&icalsecurise=${icalsecurise}&param=${param}`;
 }
 
 export const ROOM_CONFIG: SerializedRooms = {

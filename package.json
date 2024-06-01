@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "vite dev",
-    "build": "vite build",
+    "build": "prisma generate && vite build",
     "preview": "vite preview",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
@@ -51,6 +51,7 @@
     "ical.js": "^2.0.0",
     "lucide-svelte": "^0.363.0",
     "mode-watcher": "^0.3.0",
+    "svelte-sonner": "^0.3.24",
     "tailwind-merge": "^2.2.2",
     "tailwind-variants": "^0.2.1"
   },

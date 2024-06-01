@@ -18,9 +18,10 @@
       </Breadcrumb.Item>
     </Breadcrumb.List>
   </Breadcrumb.Root>
-  <div class="grid grid-cols-1 gap-4 xl:grid-cols-2 2xl:grid-cols-3">
-    {#each data.rooms as roomID}
-      <RoomCard roomId={roomID} />
+
+  <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+    {#each data.rooms as room}
+      <RoomCard {room} />
     {/each}
   </div>
 </main>

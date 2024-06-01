@@ -3,20 +3,21 @@
   import * as Card from '$lib/components/ui/card';
   // noinspection ES6UnusedImports
   import * as Tooltip from '$lib/components/ui/tooltip';
-  import { getRoomById } from '$lib/rooms';
+  import type { RoomCalendar } from '$lib/rooms';
   import { timeOptions } from '$lib/calendar';
 
-  export let roomId: string;
+  export let room: RoomCalendar;
+  const { roomId, availability } = room;
 
-  $: roomPromise = (async (roomID: string) => await getRoomById(roomID))(roomId);
+  function getTimeTo(date: number | string | Date): string {
+    date = new Date(date);
+    const now = new Date();
+    const nowMS = now.getTime() - now.getTimezoneOffset() * 60000;
 
-  const now = new Date();
+    const intervalInSec = (date.getTime() - nowMS) / (1000 * 60);
 
-  function getTimeTo(dateString: Date | string) {
-    const date = new Date(dateString);
-
-    const hours = Math.trunc((date.getTime() - now.getTime() + 1000 * 60) / (1000 * 60 * 60)).toString();
-    const minutes = Math.trunc(((date.getTime() - now.getTime() + 1000 * 60) / (1000 * 60)) % 60).toString();
+    const hours = Math.trunc(intervalInSec / 60).toString();
+    const minutes = Math.trunc(intervalInSec % 60).toString();
 
     if (hours == '0') {
       return `${minutes}min`;
@@ -26,49 +27,52 @@
   }
 </script>
 
-<Card.Root class="w-full md:w-96">
+<Card.Root class="w-full">
   <a href="/rooms/{roomId}">
     <Card.Header>
       <Card.Title>
         {roomId}
       </Card.Title>
       <Card.Description>
-        {#await roomPromise}
-          <div class="my-1.5 h-2 w-40 animate-pulse rounded bg-slate-200"></div>
-        {:then response}
-          <Tooltip.Root openDelay={300}>
-            <Tooltip.Trigger>
-              {#if response.room?.availability?.isFree}
-                <span class="text-green-500">Libre</span>
-                {#if response.room.availability.currentEvent}
-                  <span class="text-gray-500"> pendant {getTimeTo(response.room.availability.currentEvent.start)}</span>
-                {/if}
-              {:else}
-                <span class="text-red-500">Occupé</span>
+        <!--SSR could be streamed: https://svelte.dev/blog/streaming-snapshots-sveltekit -->
+        <!--{#await roomPromise}-->
+        <!--  <div class="my-1.5 h-2 w-40 animate-pulse rounded bg-slate-200" />-->
+        <!--{:then response}-->
+        <Tooltip.Root openDelay={300}>
+          <Tooltip.Trigger>
+            {#if availability.isFree}
+              <span class="text-green-500">Libre</span>
+              {#if availability.currentEvent}
+                <span class="text-gray-500"> pendant {getTimeTo(availability.currentEvent.start)}</span>
               {/if}
-            </Tooltip.Trigger>
-            <Tooltip.Content>
-              {#await roomPromise}
-                <div class="h-2 w-40 animate-pulse rounded bg-slate-200"></div>
-              {:then response}
-                {#if response.room?.availability?.currentEvent}
-                  <p>{response.room.availability.currentEvent.title}</p>
-                  <p class="text-gray-500">
-                    {new Date(response.room.availability.currentEvent.start).toLocaleTimeString('fr', timeOptions)}
-                    - {new Date(response.room.availability.currentEvent.end).toLocaleTimeString('fr', timeOptions)}
-                  </p>
-                {:else}
-                  <span class="text-gray-500">Aucun évent aujourd'hui</span>
-                {/if}
-              {/await}
-            </Tooltip.Content>
-          </Tooltip.Root>
-        {:catch _error}
-          <p style="color: red">Erreur lors de la récuperation du calendrier</p>
-        {/await}
+            {:else}
+              <span class="text-red-500">Occupé</span>
+              {#if availability?.currentEvent}
+                <span class="text-gray-500"> pendant {getTimeTo(availability.currentEvent.end)}</span>
+              {/if}
+            {/if}
+          </Tooltip.Trigger>
+          <Tooltip.Content>
+            <!--{#await roomPromise}-->
+            <!--  <div class="h-2 w-40 animate-pulse rounded bg-slate-200" />-->
+            <!--{:then response}-->
+            {#if availability.currentEvent}
+              <p>{availability.currentEvent.title}</p>
+              <p class="text-gray-500">
+                {new Date(availability.currentEvent.start).toLocaleTimeString('fr', timeOptions)}
+                - {new Date(availability.currentEvent.end).toLocaleTimeString('fr', timeOptions)}
+              </p>
+            {:else}
+              <span class="text-gray-500">Aucun évent aujourd'hui</span>
+            {/if}
+            <!--{/await}-->
+          </Tooltip.Content>
+        </Tooltip.Root>
+        <!--{:catch _error}-->
+        <!--  <p style="color: red">Erreur lors de la récuperation du calendrier</p>-->
+        <!--{/await}-->
       </Card.Description>
     </Card.Header>
-    <!--		<Card.Content>-->
-    <!--		</Card.Content>-->
+    <!--<Card.Content />-->
   </a>
 </Card.Root>

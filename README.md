@@ -1,4 +1,4 @@
-# FreeRoom Edelwiss
+# FreeRoom Edelweiss
 
 ## Install dependencies
 

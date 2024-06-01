@@ -6,24 +6,36 @@
   import '@event-calendar/core/index.css';
   import Calendar from '@event-calendar/core';
   import ResourceTimeGrid from '@event-calendar/resource-time-grid';
-  import { Building, type Event, type Room } from '@prisma/client';
+  import { Building, type Room } from '@prisma/client';
   import { calendarOptions } from '$lib/calendar';
   import { Loader } from '$lib/components/loader';
+  import { onMount } from 'svelte';
+  import { error } from '@sveltejs/kit';
+  import { Toaster } from '$lib/components/ui/sonner';
 
-  let isLoading = false;
-  let rooms: ({events: Event[]} & Room)[] = [];
+  let isLoading = true;
+  let rooms: Room[] = [];
   let selectedBuilding = Building.NDC;
+  $: selectedRooms = ((rooms, selectedBuilding) => rooms?.filter(({ building }) => building === selectedBuilding))(
+    rooms,
+    selectedBuilding
+  );
 
-  $: roomsPromise = (async (building: Building): Promise<void> => {
-    isLoading = true;
-    return fetch(`/api/rooms?building=${building}`)
-      .then(async (res) =>
+  onMount(async () => {
+    try {
+      await fetch(`/api/rooms`).then(async (res) =>
         res.ok ? (rooms = await res.json()) : Promise.reject(new Error(res.status + res.statusText))
-      )
-      .finally(() => (isLoading = false));
-  })(selectedBuilding);
+      );
+    } catch (e) {
+      error(500, 'Could not fetch rooms');
+    } finally {
+      isLoading = false;
+    }
+  });
 
-  let plugins = [ResourceTimeGrid];
+  let ec: any;
+
+  $: if (selectedBuilding && ec) ec.refetchEvents();
 </script>
 
 <main class="flex flex-1 flex-col gap-4 overflow-scroll p-4 md:gap-8 md:p-8">
@@ -47,32 +59,28 @@
         </Tabs.Trigger>
       {/each}
     </Tabs.List>
-    {#await roomsPromise}
-      <Loader />
-    {:then _}
-      {#if isLoading}
-        <Loader />
-      {:else}
-        <Calendar
-          {plugins}
-          options={{
-            ...calendarOptions,
-            view: 'resourceTimeGridDay',
-            headerToolbar: {
-              start: '',
-              center: 'title',
-              end: 'prev,next today',
-            },
-            events: rooms?.map(({ events }) => events).flat(),
-            resources: rooms?.map(({ roomId, title }) => ({
-              id: roomId,
-              title: { html: `<a href="rooms/${roomId}">${title}</a>` },
-            })),
-          }}
-        />
-      {/if}
-    {:catch _error}
-      <p>Error</p>
-    {/await}
   </Tabs.Root>
+  {#if isLoading}
+    <Loader />
+  {:else}
+    <Calendar
+      bind:this={ec}
+      plugins={[ResourceTimeGrid]}
+      options={{
+        ...calendarOptions,
+        view: 'resourceTimeGridDay',
+        headerToolbar: {
+          start: '',
+          center: 'title',
+          end: 'prev,next today',
+        },
+        eventSources: [{ url: '/api/events', extraParams: { building: selectedBuilding } }],
+        resources: selectedRooms?.map(({ roomId, title }) => ({
+          id: roomId,
+          title: { html: `<a href="rooms/${roomId}">${title}</a>` },
+        })),
+      }}
+    />
+    <Toaster />
+  {/if}
 </main>

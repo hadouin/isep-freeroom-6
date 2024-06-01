@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
-import { ROOM_CONFIG } from '../src/lib/rooms-config';
-import { getRoomCalendar } from '../src/lib/rooms';
+import { ROOM_CONFIG } from '$lib/rooms-config';
+import { fetchRoomEvents } from '$lib/rooms';
 
 // import userData from '$lib/data.json' assert { type: 'json' };
 
@@ -8,12 +8,13 @@ const prisma = new PrismaClient();
 
 async function main() {
   Object.entries(ROOM_CONFIG).map(async ([roomId, roomConfig]) => {
+    // remove roomId from events
+    const events = (await fetchRoomEvents({ roomId, ...roomConfig })).map(({ roomId: _, ...event }) => event);
     await prisma.room.create({
       data: {
         roomId,
         ...roomConfig,
-        // resource: { roomId, title: roomConfig.title },
-        events: { createMany: { data: await getRoomCalendar({ roomId, ...roomConfig }) } },
+        events: { createMany: { data: events } },
       },
     });
   });

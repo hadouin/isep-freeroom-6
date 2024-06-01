@@ -28,7 +28,7 @@ model Room {
   title        String
   building     Building
   floor        Floor
-  // ressource    Json
+  // ressource    Json // custom ressources created in frontend
   events       Event[]
 }
 
