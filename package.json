@@ -4,14 +4,14 @@
   "private": true,
   "scripts": {
     "dev": "vite dev",
-    "build": "prisma generate && vite build",
+    "build": "vite build",
     "preview": "vite preview",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
     "test": "vitest",
     "lint": "prettier --check . && eslint .",
     "format": "prettier --write .",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate && prisma migrate deploy"
   },
   "devDependencies": {
     "@event-calendar/core": "^2.6.1",
