@@ -4,13 +4,15 @@
   import '@event-calendar/core/index.css';
   import Calendar from '@event-calendar/core';
   import ResourceTimeGrid from '@event-calendar/resource-time-grid';
-  import { calendarOptions } from '$lib/calendar';
-  import { Floor, type Room } from '@prisma/client';
+  import { Floor } from '@prisma/client';
   import { Toaster } from '$lib/components/ui/sonner';
+  import { calendarOptions } from '$lib/calendarOptions';
 
   export let data;
+  $: room = data.room;
 
-  const room: Room = data.room;
+  let ec: any;
+  $: if (room && ec) ec.refetchEvents();
 
   const floorMap = {
     [Floor.GROUND]: 'rez-de-chaussée',
@@ -47,6 +49,7 @@
   </div>
 
   <Calendar
+    bind:this={ec}
     options={{
       ...calendarOptions,
       view: 'resourceTimeGridDay',

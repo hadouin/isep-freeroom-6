@@ -20,7 +20,7 @@
   </Breadcrumb.Root>
 
   <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
-    {#each data.rooms as room}
+    {#each data.rooms || [] as room}
       <RoomCard {room} />
     {/each}
   </div>

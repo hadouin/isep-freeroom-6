@@ -1,6 +1,6 @@
 import { error } from '@sveltejs/kit';
-import { extractCalEvents } from './calendar';
-import { buildCalendarUrl } from './rooms-config';
+import { extractCalEvents } from '$lib/calendar';
+import { buildCalendarUrl } from '$lib/rooms-config';
 import type { PlainEvent } from '$lib/events';
 import type { Event, Room } from '@prisma/client';
 import prisma from '$lib/prisma';
@@ -34,6 +34,16 @@ export async function getRoom(roomId: string): Promise<Room> {
     error(404, 'Room not found');
   }
   return room;
+}
+
+export async function getRooms(): Promise<Room[]> {
+  const rooms: Room[] | null = await prisma.room.findMany({
+    orderBy: { roomId: 'asc' },
+  });
+  if (!rooms) {
+    error(500, 'Room not found');
+  }
+  return rooms;
 }
 
 export async function getRoomCalendars(): Promise<RoomCalendar[]> {

@@ -1,13 +1,10 @@
 import type { PageServerLoad } from './$types';
 import { getRoom } from '$lib/rooms';
-import type { Room } from '@prisma/client';
 
 export const load: PageServerLoad = async ({ params }) => {
-  const { roomId } = params;
-
-  const room: Room = await getRoom(roomId);
+  // load function automatically invalidated and re-ran when params.roomId changes, loading just 500B of data
   return {
-    title: 'Salle ' + roomId,
-    room,
+    title: 'Salle ' + params.roomId,
+    room: await getRoom(params.roomId),
   };
 };

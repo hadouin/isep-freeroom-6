@@ -22,7 +22,7 @@
       <div class="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
         <a class="flex items-center gap-2 font-semibold" href="/">
           <Building2 class="h-6 w-6" />
-          <span class="">FreeRoom</span>
+          <span>FreeRoom</span>
         </a>
       </div>
       <div class="flex-1">
@@ -48,7 +48,7 @@
             <div class="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
               <a class="flex items-center gap-2 text-lg font-semibold" href="/">
                 <Building2 class="h-6 w-6" />
-                <span class="">FreeRoom</span>
+                <span>FreeRoom</span>
               </a>
             </div>
             <NavBarItem href="/" icon={Home} label="Home" />
