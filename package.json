@@ -12,7 +12,8 @@
     "test": "vitest",
     "lint": "prettier --check . && eslint .",
     "format": "prettier --write .",
-    "postinstall": "prisma generate && prisma migrate deploy && prisma db seed"
+    "prisma:generate": "prisma generate && cp ./node_modules/.prisma/client/*.js ./node_modules/@prisma/client",
+    "postinstall": "pnpm prepare && pnpm prisma:generate && prisma migrate deploy && prisma db seed"
   },
   "devDependencies": {
     "@event-calendar/core": "^2.6.1",
