@@ -13,7 +13,7 @@
     "lint": "prettier --check . && eslint .",
     "format": "prettier --write .",
     "prisma:generate": "prisma generate && cp ./node_modules/.prisma/client/*.js ./node_modules/@prisma/client",
-    "postinstall": "pnpm prepare && pnpm prisma:generate && prisma migrate deploy && prisma db seed"
+    "postinstall": "pnpm prepare && pnpm prisma:generate && prisma migrate deploy"
   },
   "devDependencies": {
     "@event-calendar/core": "^2.6.1",
@@ -46,17 +46,22 @@
   },
   "type": "module",
   "dependencies": {
+    "@internationalized/date": "^3.5.4",
     "@prisma/client": "^5.14.0",
     "bits-ui": "^0.21.1",
     "clsx": "^2.1.0",
+    "cmdk-sv": "^0.0.17",
     "date-fns": "^3.6.0",
+    "formsnap": "^1.0.0",
     "fs": "0.0.1-security",
     "ical.js": "^2.0.0",
     "lucide-svelte": "^0.363.0",
     "mode-watcher": "^0.3.0",
     "svelte-sonner": "^0.3.24",
+    "sveltekit-superforms": "^2.14.0",
     "tailwind-merge": "^2.2.2",
-    "tailwind-variants": "^0.2.1"
+    "tailwind-variants": "^0.2.1",
+    "zod": "^3.23.8"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
