@@ -1,9 +1,10 @@
 <script lang="ts">
   import { page } from '$app/stores';
+  import type { ComponentType } from 'svelte';
 
   export let href: string;
   export let label: string;
-  export let icon: any;
+  export let icon: ComponentType;
 </script>
 
 <a

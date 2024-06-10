@@ -3,35 +3,32 @@
   import * as Breadcrumb from '$lib/components/ui/breadcrumb';
   // noinspection ES6UnusedImports
   import * as Tabs from '$lib/components/ui/tabs';
-  import type { Event } from '$lib/events';
-  import type { Resource } from '$lib/resources';
-  import type { Room } from '$lib/rooms';
   import '@event-calendar/core/index.css';
-  // @ts-ignore
   import Calendar from '@event-calendar/core';
-  // @ts-ignore
   import ResourceTimeGrid from '@event-calendar/resource-time-grid';
-  import { Building } from '$lib/rooms-config';
-  import { calendarOptions, parseEvents } from '$lib/calendar';
+  import { Building } from '@prisma/client';
   import { Loader } from '$lib/components/loader';
+  import { Toaster } from '$lib/components/ui/sonner';
+  import { calendarOptions } from '$lib/calendarOptions';
 
-  let isLoading = false;
-  let rooms: Room[] = [];
+  export let data;
+  $: rooms = data.rooms;
+
+  let isLoading = true;
+
   let selectedBuilding = Building.NDC;
+  $: selectedRooms = ((rooms, selectedBuilding) => rooms?.filter(({ building }) => building === selectedBuilding))(
+    rooms,
+    selectedBuilding
+  );
 
-  $: roomsPromise = (async (building: Building): Promise<void> => {
-    isLoading = true;
-    return fetch(`/api/rooms?building=${building}`)
-      .then(async (res) =>
-        res.ok ? (rooms = await res.json()) : Promise.reject(new Error(res.status + res.statusText))
-      )
-      .finally(() => (isLoading = false));
-  })(selectedBuilding);
+  let ec: any;
 
-  let plugins = [ResourceTimeGrid];
+  $: if (selectedBuilding && ec) ec.refetchEvents();
 
-  let events: Event[] = [];
-  let resources: Resource[] = [];
+  function loading(isLoadingLocal: boolean) {
+    isLoading = isLoadingLocal;
+  }
 </script>
 
 <main class="flex flex-1 flex-col gap-4 overflow-scroll p-4 md:gap-8 md:p-8">
@@ -47,40 +44,38 @@
     </Breadcrumb.List>
   </Breadcrumb.Root>
 
-  <Tabs.Root bind:value={selectedBuilding}>
-    <Tabs.List class="ml-auto">
-      {#each Object.values(Building) as building}
-        <Tabs.Trigger class="px-12 text-zinc-600 dark:text-zinc-200" value={building}>
-          {building}
-        </Tabs.Trigger>
-      {/each}
-    </Tabs.List>
-    {#await roomsPromise}
-      <Loader />
-    {:then _}
-      {#if isLoading}
-        <Loader />
-      {:else}
-        <Calendar
-          {plugins}
-          options={{
-            ...calendarOptions,
-            view: 'resourceTimeGridDay',
-            headerToolbar: {
-              start: '',
-              center: 'title',
-              end: 'prev,next today',
-            },
-            events: rooms?.map((room) => parseEvents(room?.events)).flat(),
-            resources: rooms?.map(({ resource }) => ({
-              id: resource.id,
-              title: { html: `<a href="rooms/${resource.id}">${resource.title}</a>` },
-            })),
-          }}
-        />
-      {/if}
-    {:catch error}
-      <p>Error</p>
-    {/await}
-  </Tabs.Root>
+  <div class="flex gap-4">
+    <Tabs.Root bind:value={selectedBuilding}>
+      <Tabs.List class="ml-auto">
+        {#each Object.values(Building) as building}
+          <Tabs.Trigger class="px-12 text-zinc-600 dark:text-zinc-200" value={building}>
+            {building}
+          </Tabs.Trigger>
+        {/each}
+      </Tabs.List>
+    </Tabs.Root>
+    {#if isLoading}
+      <Loader class="mt-0 w-full" />
+    {/if}
+  </div>
+  <Calendar
+    bind:this={ec}
+    options={{
+      ...calendarOptions,
+      view: 'resourceTimeGridDay',
+      headerToolbar: {
+        start: '',
+        center: 'title',
+        end: 'prev,next today',
+      },
+      eventSources: [{ url: '/api/events', extraParams: { building: selectedBuilding } }],
+      loading,
+      resources: selectedRooms?.map(({ roomId, title }) => ({
+        id: roomId,
+        title: { html: `<a href="rooms/${roomId}">${title}</a>` },
+      })),
+    }}
+    plugins={[ResourceTimeGrid]}
+  />
+  <Toaster />
 </main>

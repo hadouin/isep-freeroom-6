@@ -1,37 +1,14 @@
-import type { PlainEvent } from '$lib/events';
-import { fetchRoomCalendarFromID, type Room, type RoomCalendar } from '$lib/rooms';
-import { json } from '@sveltejs/kit';
-import { isBefore, isSameDay, isWithinInterval } from 'date-fns';
+import { error, json, type RequestHandler } from '@sveltejs/kit';
+import { getRoom } from '$lib/rooms';
 
-/** @type {import('./$types').RequestHandler} */
-export async function GET({ fetch, params }) {
-  const roomResponse: RoomCalendar = await fetchRoomCalendarFromID(params.roomId, fetch);
-
-  if (!roomResponse.room) return json(roomResponse);
-
-  const room: Room = {
-    ...roomResponse.room,
-    availability: roomStatus(new Date(), roomResponse.room?.events || []),
-  };
-
-  return json({ room, status: roomResponse.status });
-}
-
-function roomStatus(date: Date, events: PlainEvent[]): { isFree: boolean; currentEvent?: PlainEvent } {
-  const filtered = events
-    .filter((e) => isSameDay(date, new Date(e.start)))
-    .sort((a, b) => (a.start > b.start ? 1 : -1));
-
-  for (const event of filtered) {
-    const start = new Date(event.start);
-    const end = new Date(event.end);
-    if (isWithinInterval(date, { start, end })) {
-      return { isFree: false, currentEvent: event };
-    }
-
-    if (isBefore(date, start)) {
-      return { isFree: true, currentEvent: event };
-    }
+// json doesn't support JS Date, so it is better to SSR the data in server load (+page.server.ts) which uses devalue
+export const GET: RequestHandler = async ({ params }) => {
+  if (!params.roomId) {
+    error(400, 'roomId missing');
   }
-  return { isFree: true };
-}
+  try {
+    return json(await getRoom(params.roomId));
+  } catch (e) {
+    error(500, 'Could not retrieve the calendar for room');
+  }
+};
