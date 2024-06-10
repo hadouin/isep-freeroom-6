@@ -44,7 +44,7 @@
     </Breadcrumb.List>
   </Breadcrumb.Root>
 
-  <div class="flex flex-1 gap-4">
+  <div class="flex gap-4">
     <Tabs.Root bind:value={selectedBuilding}>
       <Tabs.List class="ml-auto">
         {#each Object.values(Building) as building}

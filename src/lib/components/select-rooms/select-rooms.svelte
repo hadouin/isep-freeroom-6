@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { goto } from '$app/navigation';
   // noinspection ES6UnusedImports
   import * as Command from '$lib/components/ui/command';
   // noinspection ES6UnusedImports
@@ -8,17 +7,29 @@
   import Check from 'lucide-svelte/icons/check';
   import { ChevronsUpDown } from 'lucide-svelte';
   import { Button } from '$lib/components/ui/button';
-  import { tick } from 'svelte';
   import type { Room } from '@prisma/client';
   import type { HTMLAttributes } from 'svelte/elements';
 
   let className: HTMLAttributes<HTMLDivElement>['class'] = undefined;
-  let rooms: Room[] = [];
-  export { className as class, rooms };
+  export { className as class };
+  export let rooms: Room[];
 
-  let value = '';
+  export let formDataRooms: string[];
+
   let open = false;
-  $: selectedValue = rooms.find((room) => room.roomId === value)?.title || 'Chercher une salle...';
+  $: selectedValue =
+    rooms
+      .filter((room) => formDataRooms.includes(room.roomId))
+      ?.map((room) => room.title)
+      .join(', ') || 'Choisissez une salle...';
+
+  function onSelect(currentValue: string) {
+    if (formDataRooms.includes(currentValue)) {
+      formDataRooms = formDataRooms.filter((roomId) => roomId !== currentValue);
+    } else {
+      formDataRooms = [...formDataRooms, currentValue];
+    }
+  }
 </script>
 
 <Popover.Root bind:open let:ids>
@@ -30,7 +41,7 @@
       role="combobox"
       variant="outline"
     >
-      {selectedValue}
+      <span class="truncate">{selectedValue}</span>
       <ChevronsUpDown class="ml-2 h-4 w-4 shrink-0 opacity-50" />
     </Button>
   </Popover.Trigger>
@@ -41,16 +52,8 @@
         <Command.Empty>Aucune salle trouvée</Command.Empty>
         <Command.Group>
           {#each rooms as room}
-            <Command.Item
-              value={room.roomId}
-              onSelect={(currentValue) => {
-                value = currentValue;
-                open = false;
-                tick().then(() => document.getElementById(ids.trigger)?.focus());
-                goto(`/rooms/${value}`);
-              }}
-            >
-              <Check class={cn('mr-2 h-4 w-4', value !== room.roomId && 'text-transparent')} />
+            <Command.Item value={room.roomId} {onSelect}>
+              <Check class={cn('mr-2 h-4 w-4', !formDataRooms.includes(room.roomId) && 'text-transparent')} />
               {room.title}
             </Command.Item>
           {/each}
