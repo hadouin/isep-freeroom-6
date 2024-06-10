@@ -1,54 +1,60 @@
 import { error } from '@sveltejs/kit';
 import { extractCalEvents } from './calendar';
 import type { PlainResource } from './resources';
-import { ROOM_CONFIG, type RoomConfig } from './rooms-config';
+import { buildCalendarUrl, ROOM_CONFIG, type RoomConfig } from './rooms-config';
+import type { PlainEvent } from '$lib/events';
+
+export interface Room {
+  id: string;
+  floor: number;
+  resource: PlainResource;
+  events: PlainEvent[];
+  availability?: { isFree: boolean; currentEvent?: PlainEvent };
+}
+
+export interface RoomCalendar {
+  status: number;
+  room?: Room;
+  error?: string;
+}
+
+export async function getRoomById(roomID: string) {
+  return fetch('/api/rooms/' + roomID).then(async (res) =>
+    res.ok ? ((await res.json()) as RoomCalendar) : Promise.reject(new Error(res.status + res.statusText))
+  );
+}
 
 export async function fetchRoomCalendarFromID(
-	roomID: string,
-	fetch: Function = globalThis.fetch
-): Promise<
-	| { status: number; error: string; room?: undefined; ical?: undefined }
-	| {
-			status: number;
-			room: {
-				id: string;
-				floor: number;
-				resource: PlainResource;
-				events: import('c:/Users/HLY5/VSCProjects/isep-freeroom-6/src/lib/events').PlainEvent[];
-			};
-			ical: any;
-			error?: undefined;
-	  }
-> {
-	const roomConfig: RoomConfig = ROOM_CONFIG[roomID];
-	if (!roomConfig) {
-		return { status: 404, error: 'Room not found' };
-	}
+  roomID: string,
+  fetch: Function = globalThis.fetch
+): Promise<RoomCalendar> {
+  const roomConfig: RoomConfig = ROOM_CONFIG[roomID];
+  if (!roomConfig) {
+    return { status: 404, error: 'Room not found' };
+  }
 
-	console.log('Fetching calendar for room: ' + roomID);
-	try {
-		const res = await fetch(roomConfig.ical);
-		const data = await res.text();
+  try {
+    console.time('Fetching: ' + roomID);
+    const res = await fetch(buildCalendarUrl(roomID, roomConfig.icalsecurise));
+    const data: string = await res.text();
+    console.timeEnd('Fetching: ' + roomID);
 
-		return {
-			status: 200,
-			room: {
-				id: roomID,
-				floor: roomConfig.floor,
-				resource: createResource(roomConfig),
-				events: extractCalEvents(data, [roomConfig.id])
-			},
-			ical: res
-		};
-	} catch (e) {
-		console.error(`could not retrieve the calendar for room: ${roomID}`, e);
-		throw error(500, 'Could not retrieve the calendar for room: ' + roomID);
-	}
+    return {
+      status: 200,
+      room: {
+        id: roomID,
+        floor: roomConfig.floor,
+        resource: createResource(roomConfig, roomID),
+        events: extractCalEvents(data, [roomID]),
+      },
+    };
+  } catch (e) {
+    console.error(`could not retrieve the calendar for room: ${roomID}`, e);
+    throw error(500, 'Could not retrieve the calendar for room: ' + roomID);
+  }
 }
 
-function createResource(roomConfig: RoomConfig): PlainResource {
-	return {
-		id: roomConfig.id,
-		title: roomConfig.id
-	};
-}
+const createResource = (roomConfig: RoomConfig, roomID: string): PlainResource => ({
+  id: roomID,
+  title: roomConfig.title,
+});
