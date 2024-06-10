@@ -3,13 +3,14 @@
   import * as Popover from '$lib/components/ui/popover';
   import { cn } from '$lib/utils';
   import { buttonVariants } from '$lib/components/ui/button';
-  import { type DateValue, getLocalTimeZone, parseDate, today } from '@internationalized/date';
+  import { type DateValue, getLocalTimeZone, parseDate } from '@internationalized/date';
   import { dateOptions } from '$lib/calendar';
   import { CalendarIcon } from 'lucide-svelte';
   import { Calendar } from '$lib/components/ui/calendar';
 
   export let formDataDate: string | undefined;
-
+  export let minValue: DateValue | undefined;
+  export let maxValue: DateValue | undefined;
   export let attrs: any;
 
   let value: DateValue | undefined;
@@ -34,12 +35,11 @@
       calendarLabel="Date de début"
       initialFocus
       locale="fr"
-      minValue={today(getLocalTimeZone())}
+      {maxValue}
+      {minValue}
       onValueChange={(v) => {
         if (v) {
           formDataDate = v.toString();
-        } else {
-          formDataDate = '';
         }
       }}
       {value}

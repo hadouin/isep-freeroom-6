@@ -147,7 +147,7 @@ export const ROOM_CONFIG: SerializedRooms = {
   },
   L016: {
     icalsecurise: '80C220731616F3916EA72303C06CF3BA88300C4272A47AAEBAEE49A65CEB072E04CF7365D8AA874343F88B02F47D5AA4',
-    title: 'Cloitre',
+    title: 'L016',
     building: Building.NDL,
     floor: Floor.GROUND,
   },

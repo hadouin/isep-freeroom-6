@@ -12,11 +12,11 @@ export const formSchema = z
     rooms: z.array(z.string()).min(1, 'Choisissez au moins une salle'),
     startDate: z
       .string()
-      .min(10, 'Choisissez une date')
-      .refine((date) => new Date(date) > new Date(new Date().setHours(0, 0, 0, 0)), 'Choisissez une date future'),
+      .regex(/\d{4}-\d\d-\d\d/, 'Choisissez une date')
+      .refine((date) => new Date(date) >= new Date(new Date().setHours(0, 0, 0, 0)), 'Choisissez une date future'),
     endDate: z.string().min(10, 'Choisissez une date').optional(),
-    startTime: z.string().min(5, 'Choisissez une heure de début'),
-    endTime: z.string().min(5, 'Choisissez une heure de fin'),
+    startTime: z.string().regex(/^\d\d:\d\d$/, 'Choisissez une heure de début'),
+    endTime: z.string().regex(/^\d\d:\d\d$/, 'Choisissez une heure de fin'),
     comments: z.string().max(1000).optional(),
   })
   .refine((data) => (data.endDate ? new Date(data.startDate) < new Date(data.endDate) : true), {

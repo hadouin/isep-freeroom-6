@@ -13,7 +13,7 @@
   let className: HTMLAttributes<HTMLDivElement>['class'] = undefined;
   export { className as class };
   export let rooms: Room[];
-
+  export let attrs: any;
   export let formDataRooms: string[];
 
   let open = false;
@@ -33,7 +33,7 @@
 </script>
 
 <Popover.Root bind:open let:ids>
-  <Popover.Trigger asChild let:builder>
+  <Popover.Trigger {...attrs} asChild let:builder>
     <Button
       aria-expanded={open}
       builders={[builder]}
@@ -62,3 +62,6 @@
     </Command.Root>
   </Popover.Content>
 </Popover.Root>
+{#each formDataRooms as room}
+  <input hidden name={attrs.name} value={room} />
+{/each}

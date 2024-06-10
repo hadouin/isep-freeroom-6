@@ -23,13 +23,28 @@ model Event {
 }
 
 model Room {
-  roomId       String   @id
+  roomId       String        @id
   icalsecurise String
   title        String
   building     Building
   floor        Floor
   // ressource    Json // custom ressources created in frontend
   events       Event[]
+  Reservations Reservation[]
+}
+
+model Reservation {
+  id        String  @id @default(cuid())
+  firstname String
+  lastname  String
+  email     String
+  reason    String
+  rooms     Room[]
+  startDate String
+  endDate   String?
+  startTime String
+  endTime   String
+  comments  String?
 }
 
 enum Building {

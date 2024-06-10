@@ -13,9 +13,10 @@
   import { DatePicker } from '$lib/components/date-picker';
   import { Textarea } from '$lib/components/ui/textarea';
   import { TimePicker } from '$lib/components/time-picker';
-  import { SelectRooms } from '$lib/components/select-rooms/index.js';
+  import { RoomPicker } from '$lib/components/room-picker';
   import { Checkbox } from '$lib/components/ui/checkbox';
   import { Label } from '$lib/components/ui/label';
+  import { getLocalTimeZone, parseDate, today } from '@internationalized/date';
 
   export let data: PageData;
 
@@ -25,17 +26,21 @@
 
   $: if (!checked) {
     $formData.endDate = undefined;
-  } else if (checked && $formData.endDate === undefined) {
-    $formData.endDate = $formData.startDate;
+  } else if ($formData.startDate && $formData.endDate === undefined) {
+    $formData.endDate = parseDate($formData.startDate).add({ days: 1 }).toString();
   }
 
   const form = superForm(data.form, {
     validators: zodClient(formSchema),
-    onUpdated: ({ form: f }) => {
-      if (f.valid) {
-        toast.success(`You submitted ${JSON.stringify(f.data, null, 2)}`);
-      } else {
+    resetForm: true,
+    onResult({ result }) {
+      console.log(result);
+      if (result.status === 200) {
+        toast.success('Votre demande a bien été envoyée');
+      } else if (result.status === 400) {
         toast.error('Veuillez corriger les erreurs du formulaire');
+      } else {
+        toast.error("Une erreur s'est produite");
       }
     },
   });
@@ -96,7 +101,7 @@
       <Form.Field {form} name="rooms">
         <Form.Control let:attrs>
           <Form.Label>Salle(s)</Form.Label>
-          <SelectRooms {...attrs} bind:formDataRooms={$formData.rooms} {rooms} />
+          <RoomPicker {attrs} bind:formDataRooms={$formData.rooms} {rooms} />
         </Form.Control>
         <Form.FieldErrors />
       </Form.Field>
@@ -104,7 +109,7 @@
       <Form.Field class="flex flex-col" {form} name="startDate">
         <Form.Control let:attrs>
           <Form.Label>Date</Form.Label>
-          <DatePicker {attrs} bind:formDataDate={$formData.startDate} />
+          <DatePicker {attrs} bind:formDataDate={$formData.startDate} minValue={today(getLocalTimeZone())} />
         </Form.Control>
         <Form.FieldErrors />
       </Form.Field>
@@ -119,7 +124,11 @@
         <Form.Field class="flex flex-col" {form} name="endDate">
           <Form.Control let:attrs>
             <Form.Label>Date de fin</Form.Label>
-            <DatePicker {attrs} bind:formDataDate={$formData.endDate} />
+            <DatePicker
+              {attrs}
+              bind:formDataDate={$formData.endDate}
+              minValue={today(getLocalTimeZone()).add({ days: 1 })}
+            />
           </Form.Control>
           <Form.FieldErrors />
         </Form.Field>
@@ -145,7 +154,7 @@
       <Form.Field class="flex flex-col" {form} name="comments">
         <Form.Control let:attrs>
           <Form.Label>Commentaires</Form.Label>
-          <Textarea {...attrs} placeholder="Informations complémentaires ..." />
+          <Textarea {...attrs} bind:value={$formData.comments} placeholder="Informations complémentaires ..." />
         </Form.Control>
         <Form.FieldErrors />
       </Form.Field>
