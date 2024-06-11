@@ -14,6 +14,7 @@
 
   let className: HTMLAttributes<HTMLDivElement>['class'] = undefined;
   let rooms: Room[] = [];
+  // noinspection ReservedWordAsName
   export { className as class, rooms };
 
   let value = '';
@@ -25,6 +26,7 @@
   <Popover.Trigger asChild let:builder>
     <Button
       aria-expanded={open}
+      aria-label="Chercher une salle"
       builders={[builder]}
       class={cn('relative w-full justify-between', className)}
       role="combobox"

@@ -9,7 +9,7 @@
 </script>
 
 <main class="flex flex-1 flex-col items-center justify-center gap-4 overflow-scroll p-4 md:gap-8 md:p-8">
-  <h1 class="text-xl">Bienvenue sur FreeRoom</h1>
+  <h2 class="text-2xl font-semibold tracking-tight transition-colors">Bienvenue sur FreeRoom</h2>
   <Card.Root>
     <Card.Header>
       <Card.Title>À la recherche d'une salle ?</Card.Title>

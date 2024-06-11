@@ -1,20 +1,12 @@
 import { startOfWeek } from 'date-fns';
 import ICAL from 'ical.js';
-import type { Event as PrismaEvent } from '@prisma/client';
+import type { Event } from '@prisma/client';
 
 export const dateOptions: Intl.DateTimeFormatOptions = { dateStyle: 'medium' };
 export const timeOptions: Intl.DateTimeFormatOptions = { timeStyle: 'short' };
 export const dateTimeOptions: Intl.DateTimeFormatOptions = { ...dateOptions, ...timeOptions };
 
-/**
- * Extracts calendar events from the given iCal data.
- *
- * @param icalRaw - The raw iCal data as a string.
- * @param roomId
- * @returns An array of Event objects representing the extracted calendar events.
- * @throws error Parsing the calendar data failed.
- */
-export function extractCalEvents(icalRaw: string, roomId: string): PrismaEvent[] {
+export function extractCalEvents(icalRaw: string, roomId: string): Event[] {
   const now = new Date();
   try {
     const calData = ICAL.parse(icalRaw);
@@ -33,7 +25,7 @@ export function extractCalEvents(icalRaw: string, roomId: string): PrismaEvent[]
     });
 
     return filteredEvents.map(
-      (event: ICAL.Event): PrismaEvent => ({
+      (event: ICAL.Event): Event => ({
         id: `${event.uid}`,
         resourceIds: [roomId],
         title: event.summary,
@@ -41,7 +33,6 @@ export function extractCalEvents(icalRaw: string, roomId: string): PrismaEvent[]
         start: new Date((event.startDate.toUnixTime() - now.getTimezoneOffset() * 60) * 1000),
         end: new Date((event.endDate.toUnixTime() - now.getTimezoneOffset() * 60) * 1000),
         roomId,
-        // allDay: event.summary === 'Férié',
       })
     );
   } catch (error) {

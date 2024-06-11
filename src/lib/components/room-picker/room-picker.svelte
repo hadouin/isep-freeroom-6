@@ -11,6 +11,7 @@
   import type { HTMLAttributes } from 'svelte/elements';
 
   let className: HTMLAttributes<HTMLDivElement>['class'] = undefined;
+  // noinspection ReservedWordAsName
   export { className as class };
   export let rooms: Room[];
   export let attrs: any;
@@ -33,9 +34,11 @@
 </script>
 
 <Popover.Root bind:open let:ids>
-  <Popover.Trigger {...attrs} asChild let:builder>
+  <Popover.Trigger asChild let:builder>
     <Button
+      {...attrs}
       aria-expanded={open}
+      aria-label="Choisissez une ou plusieurs salles"
       builders={[builder]}
       class={cn('relative w-full justify-between', className)}
       role="combobox"

@@ -23,5 +23,3 @@ export const formSchema = z
     message: 'La date de fin doit être après la date de début',
     path: ['endDate'],
   });
-
-export type FormSchema = typeof formSchema;
