@@ -1,5 +1,5 @@
 // Disable some style eslint rules for things we can't control
-/* eslint-disable @typescript-eslint/camelcase, @typescript-eslint/class-name-casing */
+/* eslint-disable @typescript-eslint/no-explicit-any, eslint-disable @typescript-eslint/camelcase, @typescript-eslint/class-name-casing */
 
 declare module 'ical.js' {
   function parse(input: string): any[];

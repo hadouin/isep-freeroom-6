@@ -2,8 +2,10 @@ import type { Event } from '$lib/events';
 import { toast } from 'svelte-sonner';
 import { dateTimeOptions } from '$lib/calendar';
 
+// noinspection JSUnusedGlobalSymbols // required for functions
 export const calendarOptions = {
   eventClick: ({ event }: { event: Event }): void => {
+    // eslint-disable-next-line no-console
     console.log('event clicked:', event);
     toast.message(`${event.title}`, {
       description: `Salle: ${event.resourceIds[0]} |

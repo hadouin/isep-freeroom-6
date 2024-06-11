@@ -4,6 +4,7 @@
   import { cn } from '$lib/utils';
 
   let className: HTMLAttributes<HTMLDivElement>['class'] = undefined;
+  // noinspection ReservedWordAsName
   export { className as class };
 </script>
 

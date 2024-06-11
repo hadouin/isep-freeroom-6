@@ -111,12 +111,17 @@
           <Form.Label>Date</Form.Label>
           <DatePicker {attrs} bind:formDataDate={$formData.startDate} minValue={today(getLocalTimeZone())} />
         </Form.Control>
+        <Form.Description class="sr-only">La date de début de réservation</Form.Description>
         <Form.FieldErrors />
       </Form.Field>
 
       <div class="flex items-center space-x-2">
-        <Checkbox bind:checked id="end" />
-        <Label class="font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" for="end">
+        <Checkbox aria-labelledby="end-label" bind:checked id="end" />
+        <Label
+          class="font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          for="end"
+          id="end-label"
+        >
           Date de fin ultérieure
         </Label>
       </div>
@@ -130,6 +135,7 @@
               minValue={today(getLocalTimeZone()).add({ days: 1 })}
             />
           </Form.Control>
+          <Form.Description class="sr-only">La date de début de réservation</Form.Description>
           <Form.FieldErrors />
         </Form.Field>
       {/if}

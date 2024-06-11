@@ -2,8 +2,6 @@ import { PrismaClient } from '@prisma/client';
 import { ROOM_CONFIG } from '$lib/rooms-config';
 import { fetchRoomEvents } from '$lib/rooms';
 
-// import userData from '$lib/data.json' assert { type: 'json' };
-
 const prisma = new PrismaClient();
 
 async function main() {
@@ -25,7 +23,6 @@ main()
     await prisma.$disconnect();
   })
   .catch(async (e) => {
-    // eslint-disable-next-line no-console
     console.error(e);
     await prisma.$disconnect();
     process.exit(1);

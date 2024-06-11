@@ -7,12 +7,19 @@
   import { Floor } from '@prisma/client';
   import { Toaster } from '$lib/components/ui/sonner';
   import { calendarOptions } from '$lib/calendarOptions';
+  import { Loader } from '$lib/components/loader';
 
   export let data;
   $: room = data.room;
 
   let ec: any;
   $: if (room && ec) ec.refetchEvents();
+
+  let isLoading = true;
+
+  function loading(isLoadingLocal: boolean) {
+    isLoading = isLoadingLocal;
+  }
 
   const floorMap = {
     [Floor.GROUND]: 'rez-de-chaussée',
@@ -43,6 +50,9 @@
         </Breadcrumb.Item>
       </Breadcrumb.List>
     </Breadcrumb.Root>
+    {#if isLoading}
+      <Loader class="mt-0" />
+    {/if}
     <p class="text-sm">
       À {room.building}, au {floorMap[room.floor]}
     </p>
@@ -52,6 +62,7 @@
     bind:this={ec}
     options={{
       ...calendarOptions,
+      loading,
       view: 'resourceTimeGridDay',
       headerToolbar: {
         start: 'resourceTimeGridDay,resourceTimeGridWeek',

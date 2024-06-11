@@ -66,7 +66,7 @@
       </div>
       <Dropdown.Root>
         <Dropdown.Trigger asChild let:builder>
-          <Button builders={[builder]} class="hidden md:flex" size="icon" variant="outline">
+          <Button builders={[builder]} class="hidden sm:flex" size="icon" variant="outline">
             <Sun class="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
             <Moon
               class="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100"
@@ -90,7 +90,7 @@
         <Dropdown.Content align="end">
           <Dropdown.Label>Mon Compte</Dropdown.Label>
           <Dropdown.Separator />
-          <Dropdown.Item class="md:hidden" on:click={toggleMode}
+          <Dropdown.Item class="sm:hidden" on:click={toggleMode}
             >Thème&nbsp;
             <span class="hidden dark:inline">claire</span>
             <span class="dark:hidden">sombre</span>
