@@ -1,8 +1,0 @@
-{
-  "crons": [
-    {
-      "path": "/api/events/update",
-      "schedule": "*/15 7-22 * * 1-5"
-    }
-  ]
-}
