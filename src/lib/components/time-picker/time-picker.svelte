@@ -4,9 +4,8 @@
   // noinspection ES6UnusedImports
   import * as Popover from '$lib/components/ui/popover';
   import { cn } from '$lib/utils';
-  import { Clock } from 'lucide-svelte';
+  import { Check, Clock } from 'lucide-svelte';
   import { Button, buttonVariants } from '$lib/components/ui/button';
-  import Check from 'lucide-svelte/icons/check';
 
   export let formDataTime: string;
   export let attrs: any;
