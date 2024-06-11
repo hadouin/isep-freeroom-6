@@ -47,12 +47,12 @@
     <Filter
       bind:filterValues={$filterValues.building}
       options={Object.entries(Building).map(([value, label]) => ({ label, value }))}
-      title="Étages"
+      title="Bâtiment"
     />
     <Filter
       bind:filterValues={$filterValues.floor}
       options={Object.entries(floorMap).map(([value, label]) => ({ label, value }))}
-      title="Étages"
+      title="Étage"
     />
     {#if showReset}
       <Button on:click={resetFilters} variant="ghost" class="h-8 px-2 lg:px-3">
