@@ -4,10 +4,10 @@
   import '@event-calendar/core/index.css';
   import Calendar from '@event-calendar/core';
   import ResourceTimeGrid from '@event-calendar/resource-time-grid';
-  import { Floor } from '@prisma/client';
   import { Toaster } from '$lib/components/ui/sonner';
   import { calendarOptions } from '$lib/calendarOptions';
   import { Loader } from '$lib/components/loader';
+  import { floorMap } from '$lib/rooms';
 
   export let data;
   $: room = data.room;
@@ -20,20 +20,10 @@
   function loading(isLoadingLocal: boolean) {
     isLoading = isLoadingLocal;
   }
-
-  const floorMap = {
-    [Floor.GROUND]: 'rez-de-chaussée',
-    [Floor.FIRST]: '1ère étage',
-    [Floor.SECOND]: '2ème étage',
-    [Floor.THIRD]: '3ème étage',
-    [Floor.FOURTH]: '4ème étage',
-    [Floor.FIFTH]: '5ème étage',
-    [Floor.SIXTH]: '6ème étage',
-  };
 </script>
 
 <!-- @TODO: move to /calendar/roomId to put room details on /rooms/roomId -->
-<main class="flex flex-1 flex-col gap-4 overflow-scroll p-4 md:gap-8 md:p-8">
+<main class="flex flex-1 flex-col gap-4 overflow-y-auto p-4 md:gap-8 md:p-8">
   <div class="flex justify-between">
     <Breadcrumb.Root>
       <Breadcrumb.List>

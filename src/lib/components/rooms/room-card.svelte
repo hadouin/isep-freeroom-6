@@ -7,7 +7,7 @@
   import { timeOptions } from '$lib/calendar';
 
   export let room: RoomCalendar;
-  const { roomId, availability } = room;
+  $: availability = room.availability;
 
   function getTimeTo(date: number | string | Date): string {
     date = new Date(date);
@@ -28,10 +28,10 @@
 </script>
 
 <Card.Root class="w-full">
-  <a href="/rooms/{roomId}">
+  <a href="/rooms/{room.roomId}">
     <Card.Header>
       <Card.Title>
-        {roomId}
+        {room.title}
       </Card.Title>
       <Card.Description>
         <Tooltip.Root openDelay={300}>

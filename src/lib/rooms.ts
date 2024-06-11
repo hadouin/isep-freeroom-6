@@ -2,13 +2,23 @@ import { error } from '@sveltejs/kit';
 import { extractCalEvents } from '$lib/calendar';
 import { buildCalendarUrl } from '$lib/rooms-config';
 import type { PlainEvent } from '$lib/events';
-import type { Event, Room } from '@prisma/client';
+import { type Event, Floor, type Room } from '@prisma/client';
 import prisma from '$lib/prisma';
 import { endOfToday, isBefore, isWithinInterval, startOfToday } from 'date-fns';
 
 export type RoomCalendar = Room & {
   availability: { isFree: boolean; currentEvent?: PlainEvent };
   events: Event[];
+};
+
+export const floorMap = {
+  [Floor.GROUND]: 'rez-de-chaussée',
+  [Floor.FIRST]: '1er étage',
+  [Floor.SECOND]: '2ème étage',
+  [Floor.THIRD]: '3ème étage',
+  [Floor.FOURTH]: '4ème étage',
+  [Floor.FIFTH]: '5ème étage',
+  [Floor.SIXTH]: '6ème étage',
 };
 
 export async function fetchRoomEvents(room: Room): Promise<Event[]> {

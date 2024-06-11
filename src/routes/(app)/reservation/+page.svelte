@@ -48,7 +48,7 @@
   const { form: formData, enhance } = form;
 </script>
 
-<main class="flex flex-1 flex-col gap-4 overflow-scroll p-4 md:gap-8 md:p-8">
+<main class="flex flex-1 flex-col gap-4 overflow-y-auto p-4 md:p-8">
   <Breadcrumb.Root>
     <Breadcrumb.List>
       <Breadcrumb.Item>
@@ -63,7 +63,7 @@
 
   <form class="mx-auto w-full sm:w-[500px]" method="POST" use:enhance>
     <div class="grid gap-4">
-      <h1 class="text-3xl font-bold">Réservation</h1>
+      <h1 class="text-center text-3xl font-bold">Réservation</h1>
 
       <div class="grid gap-4 sm:grid-cols-2">
         <Form.Field {form} name="firstname">
