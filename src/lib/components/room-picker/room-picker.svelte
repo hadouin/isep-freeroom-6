@@ -4,14 +4,14 @@
   // noinspection ES6UnusedImports
   import * as Popover from '$lib/components/ui/popover';
   import { cn } from '$lib/utils';
-  import Check from 'lucide-svelte/icons/check';
-  import { ChevronsUpDown } from 'lucide-svelte';
+  import { Check, ChevronsUpDown } from 'lucide-svelte';
   import { Button } from '$lib/components/ui/button';
   import type { Room } from '@prisma/client';
   import type { HTMLAttributes } from 'svelte/elements';
   import { page } from '$app/stores';
 
   let className: HTMLAttributes<HTMLDivElement>['class'] = undefined;
+  // noinspection ReservedWordAsName
   export { className as class };
   export let rooms: Room[];
   export let attrs: any;
@@ -38,9 +38,11 @@
 </script>
 
 <Popover.Root bind:open let:ids>
-  <Popover.Trigger {...attrs} asChild let:builder>
+  <Popover.Trigger asChild let:builder>
     <Button
+      {...attrs}
       aria-expanded={open}
+      aria-label="Choisissez une ou plusieurs salles"
       builders={[builder]}
       class={cn('relative w-full justify-between', className)}
       role="combobox"

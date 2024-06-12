@@ -31,7 +31,7 @@
   }
 </script>
 
-<main class="flex flex-1 flex-col gap-4 overflow-scroll p-4 md:gap-8 md:p-8">
+<main class="flex flex-col flex-1 gap-4 p-4 overflow-auto md:gap-6 md:p-8">
   <Breadcrumb.Root>
     <Breadcrumb.List>
       <Breadcrumb.Item>
@@ -55,7 +55,7 @@
       </Tabs.List>
     </Tabs.Root>
     {#if isLoading}
-      <Loader class="mt-0 w-full" />
+      <Loader class="w-full mt-0" />
     {/if}
   </div>
   <Calendar

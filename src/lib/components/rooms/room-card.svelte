@@ -7,7 +7,7 @@
   import { timeOptions } from '$lib/calendar';
 
   export let room: RoomCalendar;
-  const { roomId, availability } = room;
+  $: availability = room.availability;
 
   function getTimeTo(date: number | string | Date): string {
     date = new Date(date);
@@ -28,51 +28,39 @@
 </script>
 
 <Card.Root class="w-full">
-  <a href="/rooms/{roomId}">
+  <a href="/rooms/{room.roomId}">
     <Card.Header>
       <Card.Title>
-        {roomId}
+        {room.title}
       </Card.Title>
       <Card.Description>
-        <!--SSR could be streamed: https://svelte.dev/blog/streaming-snapshots-sveltekit -->
-        <!--{#await roomPromise}-->
-        <!--  <div class="my-1.5 h-2 w-40 animate-pulse rounded bg-slate-200" />-->
-        <!--{:then response}-->
         <Tooltip.Root openDelay={300}>
           <Tooltip.Trigger>
             {#if availability.isFree}
               <span class="text-green-500">Libre</span>
               {#if availability.currentEvent}
-                <span class="text-gray-500"> pendant {getTimeTo(availability.currentEvent.start)}</span>
+                <span class="text-muted-foreground"> pendant {getTimeTo(availability.currentEvent.start)}</span>
               {/if}
             {:else}
               <span class="text-red-500">Occupé</span>
               {#if availability?.currentEvent}
-                <span class="text-gray-500"> pendant {getTimeTo(availability.currentEvent.end)}</span>
+                <span class="text-muted-foreground"> pendant {getTimeTo(availability.currentEvent.end)}</span>
               {/if}
             {/if}
           </Tooltip.Trigger>
           <Tooltip.Content>
-            <!--{#await roomPromise}-->
-            <!--  <div class="h-2 w-40 animate-pulse rounded bg-slate-200" />-->
-            <!--{:then response}-->
             {#if availability.currentEvent}
               <p>{availability.currentEvent.title}</p>
               <p class="text-gray-500">
-                {new Date(availability.currentEvent.start).toLocaleTimeString('fr', timeOptions)}
-                - {new Date(availability.currentEvent.end).toLocaleTimeString('fr', timeOptions)}
+                {availability.currentEvent.start.toLocaleTimeString('fr', timeOptions)}
+                - {availability.currentEvent.end.toLocaleTimeString('fr', timeOptions)}
               </p>
             {:else}
               <span class="text-gray-500">Aucun évent aujourd'hui</span>
             {/if}
-            <!--{/await}-->
           </Tooltip.Content>
         </Tooltip.Root>
-        <!--{:catch _error}-->
-        <!--  <p style="color: red">Erreur lors de la récuperation du calendrier</p>-->
-        <!--{/await}-->
       </Card.Description>
     </Card.Header>
-    <!--<Card.Content />-->
   </a>
 </Card.Root>

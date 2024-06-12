@@ -7,10 +7,12 @@ import prisma from '$lib/prisma';
 
 export const load: PageServerLoad = async () => {
   return {
+    title: 'Réservation',
     form: await superValidate(zod(formSchema)),
   };
 };
 
+// handle form submission
 export const actions = {
   default: async (event) => {
     const form = await superValidate(event, zod(formSchema));
@@ -35,7 +37,7 @@ export const actions = {
         },
       });
     } catch (e) {
-      console.error(500, 'Impossible de créer la réservation', e);
+      console.error('Impossible de créer la réservation', e);
       return fail(500, {
         form,
         error: 'Impossible de créer la réservation',

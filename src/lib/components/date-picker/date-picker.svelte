@@ -9,8 +9,8 @@
   import { Calendar } from '$lib/components/ui/calendar';
 
   export let formDataDate: string | undefined;
-  export let minValue: DateValue | undefined;
-  export let maxValue: DateValue | undefined;
+  export let minValue: DateValue | undefined = undefined;
+  export let maxValue: DateValue | undefined = undefined;
   export let attrs: any;
 
   let value: DateValue | undefined;
@@ -21,6 +21,7 @@
 <Popover.Root>
   <Popover.Trigger
     {...attrs}
+    aria-label="Choisissez une date"
     class={cn(
       buttonVariants({ variant: 'outline' }),
       'w-full justify-start pl-4 text-left font-normal',

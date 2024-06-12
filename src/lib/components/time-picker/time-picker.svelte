@@ -4,9 +4,8 @@
   // noinspection ES6UnusedImports
   import * as Popover from '$lib/components/ui/popover';
   import { cn } from '$lib/utils';
-  import { Clock } from 'lucide-svelte';
+  import { Check, Clock } from 'lucide-svelte';
   import { Button, buttonVariants } from '$lib/components/ui/button';
-  import Check from 'lucide-svelte/icons/check';
 
   export let formDataTime: string;
   export let attrs: any;
@@ -26,6 +25,7 @@
   <Popover.Root bind:open={openHours}>
     <Popover.Trigger
       {...attrs}
+      aria-label="Choisissez l'heure"
       class={cn(
         buttonVariants({ variant: 'outline' }),
         'relative w-full rounded-e-none border-e-0',
@@ -60,6 +60,7 @@
 
   <Popover.Root bind:open={openMinutes}>
     <Popover.Trigger
+      aria-label="Choisissez la minute"
       class={cn(
         buttonVariants({ variant: 'outline' }),
         'relative w-full rounded-e-none rounded-s-none border-e-0',
@@ -92,6 +93,7 @@
   </Popover.Root>
 
   <Button
+    aria-label="Ouvre heure et minute"
     class="w-full rounded-l-none"
     on:click={() => {
       if (openHours || openMinutes) {
@@ -102,6 +104,7 @@
         openMinutes = true;
       }
     }}
+    tabindex={-1}
     variant="outline"
   >
     <Clock class="ml-auto h-4 w-4 opacity-75" />

@@ -52,7 +52,7 @@
   $formData.endTime = (currentDate.getHours() + 1).toString() + ':' + currentDate.getMinutes().toString();
 </script>
 
-<main class="flex flex-1 flex-col gap-4 overflow-scroll p-4 md:gap-8 md:p-8">
+<main class="flex flex-1 flex-col gap-4 overflow-y-auto p-4 md:p-8">
   <Breadcrumb.Root>
     <Breadcrumb.List>
       <Breadcrumb.Item>
@@ -67,7 +67,7 @@
 
   <form class="mx-auto w-full sm:w-[500px]" method="POST" use:enhance>
     <div class="grid gap-4">
-      <h1 class="text-3xl font-bold">Réservation</h1>
+      <h1 class="text-center text-3xl font-bold">Réservation</h1>
 
       <div class="grid gap-4 sm:grid-cols-2">
         <Form.Field {form} name="firstname">
@@ -115,12 +115,17 @@
           <Form.Label>Date</Form.Label>
           <DatePicker {attrs} bind:formDataDate={$formData.startDate} minValue={today(getLocalTimeZone())} />
         </Form.Control>
+        <Form.Description class="sr-only">La date de début de réservation</Form.Description>
         <Form.FieldErrors />
       </Form.Field>
 
       <div class="flex items-center space-x-2">
-        <Checkbox bind:checked id="end" />
-        <Label class="font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" for="end">
+        <Checkbox aria-labelledby="end-label" bind:checked id="end" />
+        <Label
+          class="font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          for="end"
+          id="end-label"
+        >
           Date de fin ultérieure
         </Label>
       </div>
@@ -134,6 +139,7 @@
               minValue={today(getLocalTimeZone()).add({ days: 1 })}
             />
           </Form.Control>
+          <Form.Description class="sr-only">La date de début de réservation</Form.Description>
           <Form.FieldErrors />
         </Form.Field>
       {/if}
