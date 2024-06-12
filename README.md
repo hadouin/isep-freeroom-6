@@ -66,23 +66,23 @@ vercel --prod
 Apply migrations:
 
 ```shell
-npx prisma migrate dev
+pnpm exec prisma migrate dev
 ```
 
 Seed the database if need be:
 
 ```shell
-npx prisma db seed
+pnpm exec prisma db seed
 ```
 
 After changing the prisma schema, create a new migration:
 
 ```shell
-npx prisma migrate dev --name <migration-name>
+pnpm exec prisma migrate dev --name <migration-name>
 ```
 
 To re-generate Prisma Client, run:
 
 ```shell
-npx prisma generate
+pnpm exec prisma generate
 ```

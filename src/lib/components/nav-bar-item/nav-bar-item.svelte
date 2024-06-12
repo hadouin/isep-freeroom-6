@@ -1,11 +1,13 @@
 <script lang="ts">
   import { page } from '$app/stores';
   import type { ComponentType } from 'svelte';
+  import { Badge } from '../ui/badge';
 
   export let href: string;
   export let label: string;
   export let icon: ComponentType;
   export let reload: boolean = false;
+  export let beta: boolean = false;
 </script>
 
 <a
@@ -20,4 +22,7 @@
     <svelte:component this={icon} class="w-4 h-4" />
   {/if}
   {label}
+  {#if beta}
+    <Badge>beta</Badge>
+  {/if}
 </a>
