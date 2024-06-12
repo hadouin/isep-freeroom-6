@@ -50,7 +50,7 @@
           <NavBarItem href="/rooms" icon={DoorOpen} label="Salles" />
           <NavBarItem href="/calendar" icon={Calendar} label="Calendrier" />
           <NavBarItem href="/reservation" icon={CalendarCheck} label="Réservation" />
-          <NavBarItem reload={!user} href="/admin" icon={CircleUser} label="Admin" />
+          <NavBarItem reload={!user} href="/admin" icon={CircleUser} label="Admin" beta />
         </nav>
       </div>
     </div>
@@ -76,7 +76,7 @@
             <NavBarItem href="/rooms" icon={DoorOpen} label="Salles" />
             <NavBarItem href="/calendar" icon={Calendar} label="Calendrier" />
             <NavBarItem href="/reservation" icon={CalendarCheck} label="Réservation" />
-            <NavBarItem reload={!user} href="/admin" icon={CircleUser} label="Admin" />
+            <NavBarItem reload={!user} href="/admin" icon={CircleUser} label="Admin" beta />
           </nav>
         </Sheet.Content>
       </Sheet.Root>
