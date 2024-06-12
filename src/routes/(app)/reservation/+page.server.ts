@@ -36,6 +36,14 @@ export const actions = {
           comments: form.data.comments,
         },
       });
+
+      fetch(`/api/reservation/email`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form.data),
+      }).then((response) => {
+        console.log(response.text());
+      });
     } catch (e) {
       console.error('Impossible de créer la réservation', e);
       return fail(500, {
