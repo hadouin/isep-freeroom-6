@@ -57,6 +57,7 @@
     "formsnap": "^1.0.0",
     "fs": "0.0.1-security",
     "ical.js": "^2.0.0",
+    "js-sha256": "^0.11.0",
     "lucide-svelte": "^0.363.0",
     "mode-watcher": "^0.3.0",
     "svelte-sonner": "^0.3.24",

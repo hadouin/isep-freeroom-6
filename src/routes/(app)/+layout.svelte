@@ -11,11 +11,28 @@
   import { SearchBar } from '$lib/components/search';
   import { NavBarItem } from '$lib/components/nav-bar-item';
   import { navigating } from '$app/stores';
+  import Avatar from '$lib/components/ui/avatar/avatar.svelte';
+  import AvatarImage from '$lib/components/ui/avatar/avatar-image.svelte';
+  import AvatarFallback from '$lib/components/ui/avatar/avatar-fallback.svelte';
+  import { sha256 } from 'js-sha256';
+
+  function getGravatarURL(email: string) {
+    // Trim leading and trailing whitespace from
+    // an email address and force all characters
+    // to lower case
+    const address = String(email).trim().toLowerCase();
+    // Create a SHA256 hash of the final string
+    const hash = sha256(address);
+    // Grab the actual image URL
+    return `https://www.gravatar.com/avatar/${hash}`;
+  }
 
   let open = false;
   $: if ($navigating) open = false;
   export let data;
   $: rooms = data.rooms;
+  $: user = data?.session?.cas;
+  $: gravatarURL = getGravatarURL(user?.attributes.mail._text);
 </script>
 
 <div class="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
@@ -33,7 +50,7 @@
           <NavBarItem href="/rooms" icon={DoorOpen} label="Salles" />
           <NavBarItem href="/calendar" icon={Calendar} label="Calendrier" />
           <NavBarItem href="/reservation" icon={CalendarCheck} label="Réservation" />
-          <NavBarItem href="/admin" icon={CircleUser} label="Admin" />
+          <NavBarItem reload={!user} href="/admin" icon={CircleUser} label="Admin" />
         </nav>
       </div>
     </div>
@@ -59,7 +76,7 @@
             <NavBarItem href="/rooms" icon={DoorOpen} label="Salles" />
             <NavBarItem href="/calendar" icon={Calendar} label="Calendrier" />
             <NavBarItem href="/reservation" icon={CalendarCheck} label="Réservation" />
-            <NavBarItem href="/admin" icon={CircleUser} label="Admin" />
+            <NavBarItem reload={!user} href="/admin" icon={CircleUser} label="Admin" />
           </nav>
         </Sheet.Content>
       </Sheet.Root>
@@ -85,6 +102,12 @@
       <Dropdown.Root>
         <Dropdown.Trigger asChild let:builder>
           <Button builders={[builder]} class="rounded-full" size="icon" variant="secondary">
+            <Avatar>
+              <AvatarImage src={gravatarURL} />
+              <AvatarFallback>
+                <CircleUser class="w-5 h-5" />
+              </AvatarFallback>
+            </Avatar>
             <CircleUser class="w-5 h-5" />
             <span class="sr-only">Afficher/cacher le menu utilisateur</span>
           </Button>
@@ -97,10 +120,10 @@
             <span class="hidden dark:inline">clair</span>
             <span class="dark:hidden">sombre</span>
           </Dropdown.Item>
-          <Dropdown.Item>Paramètres</Dropdown.Item>
+          <Dropdown.Item data-sveltekit-reload={!user ? true : "off"} href="/account">Paramètres</Dropdown.Item>
           <Dropdown.Item>Support</Dropdown.Item>
           <Dropdown.Separator />
-          <Dropdown.Item>Déconnexion</Dropdown.Item>
+          <Dropdown.Item data-sveltekit-preload-data='off' href="/logout">Déconnexion</Dropdown.Item>
         </Dropdown.Content>
       </Dropdown.Root>
     </header>

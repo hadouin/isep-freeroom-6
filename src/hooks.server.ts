@@ -9,7 +9,7 @@ export const handle: Handle = sequence(
 	casHandler(
 		"https://portail-ovh.isep.fr",
 		3,
-		(event: any) => event.url.pathname.startsWith("/admin"),
+		(event: any) => event.url.pathname.startsWith("/admin") || event.url.pathname.startsWith("/account"),
 		(event:any , user: any) => {
       return false
 		}

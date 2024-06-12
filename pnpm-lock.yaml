@@ -44,6 +44,9 @@ importers:
       ical.js:
         specifier: ^2.0.0
         version: 2.0.0
+      js-sha256:
+        specifier: ^0.11.0
+        version: 0.11.0
       lucide-svelte:
         specifier: ^0.363.0
         version: 0.363.0(svelte@4.2.12)
@@ -1332,6 +1335,9 @@ packages:
 
   joi@17.13.1:
     resolution: {integrity: sha512-vaBlIKCyo4FCUtCm7Eu4QZd/q02bWcxfUO6YSXAZOWF6gzcLBeba8kwotUdYJjDLW8Cz8RywsSOqiNJZW0mNvg==}
+
+  js-sha256@0.11.0:
+    resolution: {integrity: sha512-6xNlKayMZvds9h1Y1VWc0fQHQ82BxTXizWPEtEeGvmOUYpBRy4gbWroHLpzowe6xiQhHpelCQiE7HEdznyBL9Q==}
 
   js-tokens@8.0.3:
     resolution: {integrity: sha512-UfJMcSJc+SEXEl9lH/VLHSZbThQyLpw1vLO1Lb+j4RWDvG3N2f7yj3PVQA3cmkTBNldJ9eFnM+xEXxHIXrYiJw==}
@@ -3588,6 +3594,8 @@ snapshots:
       '@sideway/formula': 3.0.1
       '@sideway/pinpoint': 2.0.0
     optional: true
+
+  js-sha256@0.11.0: {}
 
   js-tokens@8.0.3: {}
 

@@ -1,21 +1,67 @@
-# FreeRoom Edelweiss
+# FreeRoom • Edelweiss
 
-## Install dependencies
+## Manuel de déloiement
 
-```shell
+### Développement
+
+Prérequis :
+- pnpm https://pnpm.io/installation#using-npm
+- docker https://docs.docker.com/get-docker/
+
+1. Cloner le dépôt
+
+```sh
+git clone git@github.com:hadouin/isep-freeroom-6.git
+```
+
+2. Installer les dépendances
+
+```sh
 pnpm install
 ```
 
-## Developing
+3. Lancer la base de donnée locale et set les variables d'environnement
 
-```shell
-pnpm dev
-
-# or start the server and open the app in a new browser tab
-pnpm dev -- --open
+```sh
+docker-compose up -d
 ```
 
-## Prisma Database
+4. Seed la base de donnée (créer les données de test)
+
+```shell
+npx prisma db seed
+```
+
+4. Lancer le serveur de développement
+
+```sh
+pnpm dev
+```
+
+5. Ouvrir le navigateur à l'adresse http://localhost:5173
+
+### Production
+
+Prérequis :
+- vercel account
+- postgres database in vercel
+
+1. Lier le dépôt à vercel
+
+```sh
+vercel login
+vercel
+```
+
+2. Configurer les variables d'environnement avec les valeurs de la base de données postgres récupéré en production
+
+3. Déployer
+
+```sh
+vercel --prod
+```
+
+### Prisma Database
 
 Apply migrations:
 
@@ -40,15 +86,3 @@ To re-generate Prisma Client, run:
 ```shell
 npx prisma generate
 ```
-
-## Building
-
-To create a production version of the app:
-
-```shell
-pnpm run build
-```
-
-You can preview the production build with `pnpm run preview`.
-
-To deploy, you may need an [adapter](https://kit.svelte.dev/docs/adapters) depending on the target environment.
