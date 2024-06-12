@@ -8,6 +8,7 @@
   import { Button } from '$lib/components/ui/button';
   import type { Room } from '@prisma/client';
   import type { HTMLAttributes } from 'svelte/elements';
+  import { page } from '$app/stores';
 
   let className: HTMLAttributes<HTMLDivElement>['class'] = undefined;
   // noinspection ReservedWordAsName
@@ -17,6 +18,7 @@
   export let formDataRooms: string[];
 
   let open = false;
+
   $: selectedValue =
     rooms
       .filter((room) => formDataRooms.includes(room.roomId))
@@ -30,6 +32,9 @@
       formDataRooms = [...formDataRooms, currentValue];
     }
   }
+  const roomParam = $page.url.searchParams.get('room');
+
+  if (roomParam) onSelect(roomParam);
 </script>
 
 <Popover.Root bind:open let:ids>
@@ -44,6 +49,7 @@
       variant="outline"
     >
       <span class="truncate">{selectedValue}</span>
+
       <ChevronsUpDown class="ml-2 h-4 w-4 shrink-0 opacity-50" />
     </Button>
   </Popover.Trigger>
