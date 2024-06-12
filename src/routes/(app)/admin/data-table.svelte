@@ -3,6 +3,7 @@
   import { readable } from 'svelte/store';
   import * as Table from '$lib/components/ui/table';
   import DataTableActions from "./data-table-actions.svelte";
+  import DataTableStatus from './data-table-status.svelte';
 
   export let data: any[];
 
@@ -46,6 +47,13 @@
       accessor: 'comment',
       header: 'Commentaire',
       cell: ({ value }) => value || '-',
+    }),
+    table.column({
+      accessor: 'status',
+      header: 'Statut',
+      cell: ({ value }) => {
+        return createRender(DataTableStatus, { status: value })
+      },
     }),
     table.column({
       accessor: ({ id }) => id,

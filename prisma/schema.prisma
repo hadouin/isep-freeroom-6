@@ -45,6 +45,7 @@ model Reservation {
   startTime String
   endTime   String
   comments  String?
+  status    RoomStatus @default(WAITING)
 }
 
 enum Building {
@@ -60,6 +61,12 @@ enum Floor {
   FOURTH
   FIFTH
   SIXTH
+}
+
+enum RoomStatus {
+  WAITING
+  ACCEPTED
+  REJECTED
 }
 
 // model User {
