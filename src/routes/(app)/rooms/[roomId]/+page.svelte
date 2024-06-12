@@ -7,6 +7,7 @@
   import { Floor } from '@prisma/client';
   import { Toaster } from '$lib/components/ui/sonner';
   import { calendarOptions } from '$lib/calendarOptions';
+  import { Button } from '$lib/components/ui/button';
 
   export let data;
   $: room = data.room;
@@ -43,9 +44,12 @@
         </Breadcrumb.Item>
       </Breadcrumb.List>
     </Breadcrumb.Root>
-    <p class="text-sm">
-      À {room.building}, au {floorMap[room.floor]}
-    </p>
+    <div class="flex gap-5">
+      <p class="text-sm">
+        À {room.building}, au {floorMap[room.floor]}
+      </p>
+      <a href={`/reservation?room=${room.roomId}`}> <Button>Réserver maintenant</Button></a>
+    </div>
   </div>
 
   <Calendar
