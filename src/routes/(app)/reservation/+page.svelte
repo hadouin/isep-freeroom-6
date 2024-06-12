@@ -46,6 +46,7 @@
   });
 
   const { form: formData, enhance } = form;
+  $formData.startDate = today(getLocalTimeZone()).toString();
 </script>
 
 <main class="flex flex-1 flex-col gap-4 overflow-scroll p-4 md:gap-8 md:p-8">
