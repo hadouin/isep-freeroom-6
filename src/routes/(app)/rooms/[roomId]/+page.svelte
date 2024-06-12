@@ -50,9 +50,6 @@
       </p>
       <a href={`/reservation?room=${room.roomId}`}> <Button>Réserver maintenant</Button></a>
     </div>
-    <p class="text-sm">
-      À {room.building}, au {floorMap[room.floor]}
-    </p>
   </div>
 
   <Calendar
