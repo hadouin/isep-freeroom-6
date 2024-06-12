@@ -46,7 +46,7 @@
       </div>
       <div class="flex-1">
         <nav class="grid items-start px-2 text-sm font-medium lg:px-4">
-          <NavBarItem href="/" icon={Home} label="Home" />
+          <NavBarItem href="/" icon={Home} label="Accueil" />
           <NavBarItem href="/rooms" icon={DoorOpen} label="Salles" />
           <NavBarItem href="/calendar" icon={Calendar} label="Calendrier" />
           <NavBarItem href="/reservation" icon={CalendarCheck} label="Réservation" />
@@ -55,8 +55,8 @@
       </div>
     </div>
   </div>
-  <div class="flex flex-col h-screen">
-    <header class="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
+  <div class="flex h-screen flex-col">
+    <header class="flex h-14 min-w-0 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
       <Sheet.Root bind:open>
         <Sheet.Trigger asChild let:builder>
           <Button builders={[builder]} class="shrink-0 md:hidden" size="icon" variant="outline">
@@ -81,6 +81,7 @@
         </Sheet.Content>
       </Sheet.Root>
       <div class="flex-1 w-full">
+      <div class="flex w-full min-w-0 flex-1">
         <SearchBar class="sm:w-2/3 lg:w-1/2 xl:w-1/3" {rooms} />
       </div>
       <Dropdown.Root>
