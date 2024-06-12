@@ -37,10 +37,10 @@
 
 <div class="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
   <div class="hidden border-r bg-muted/40 md:block">
-    <div class="flex h-full max-h-screen flex-col gap-2">
+    <div class="flex flex-col h-full max-h-screen gap-2">
       <div class="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
         <a class="flex items-center gap-2 font-semibold" href="/">
-          <Building2 class="h-6 w-6" />
+          <Building2 class="w-6 h-6" />
           <span>FreeRoom</span>
         </a>
       </div>
@@ -55,12 +55,12 @@
       </div>
     </div>
   </div>
-  <div class="flex h-screen flex-col">
+  <div class="flex flex-col h-screen">
     <header class="flex h-14 min-w-0 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
       <Sheet.Root bind:open>
         <Sheet.Trigger asChild let:builder>
           <Button builders={[builder]} class="shrink-0 md:hidden" size="icon" variant="outline">
-            <Menu class="h-5 w-5" />
+            <Menu class="w-5 h-5" />
             <span class="sr-only">Afficher/cacher le menu de navigation</span>
           </Button>
         </Sheet.Trigger>
@@ -68,7 +68,7 @@
           <nav class="grid gap-2 text-lg font-medium">
             <div class="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
               <a class="flex items-center gap-2 text-lg font-semibold" href="/">
-                <Building2 class="h-6 w-6" />
+                <Building2 class="w-6 h-6" />
                 <span>FreeRoom</span>
               </a>
             </div>
@@ -80,8 +80,7 @@
           </nav>
         </Sheet.Content>
       </Sheet.Root>
-      <div class="w-full flex-1">
-        <div class="flex w-full min-w-0 flex-1">
+        <div class="flex flex-1 w-full min-w-0">
           <SearchBar class="sm:w-2/3 lg:w-1/2 xl:w-1/3" {rooms} />
         </div>
         <Dropdown.Root>
@@ -106,10 +105,10 @@
               <Avatar>
                 <AvatarImage src={gravatarURL} />
                 <AvatarFallback>
-                  <CircleUser class="h-5 w-5" />
+                  <CircleUser class="w-5 h-5" />
                 </AvatarFallback>
               </Avatar>
-              <CircleUser class="h-5 w-5" />
+              <CircleUser class="w-5 h-5" />
               <span class="sr-only">Afficher/cacher le menu utilisateur</span>
             </Button>
           </Dropdown.Trigger>
@@ -127,7 +126,6 @@
             <Dropdown.Item data-sveltekit-preload-data="off" href="/logout">Déconnexion</Dropdown.Item>
           </Dropdown.Content>
         </Dropdown.Root>
-      </div>
     </header>
     <slot />
   </div>
