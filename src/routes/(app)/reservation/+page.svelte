@@ -46,6 +46,10 @@
   });
 
   const { form: formData, enhance } = form;
+  const currentDate = new Date();
+  $formData.startDate = today(getLocalTimeZone()).toString();
+  $formData.startTime = currentDate.getHours().toString() + ':' + currentDate.getMinutes().toString();
+  $formData.endTime = (currentDate.getHours() + 1).toString() + ':' + currentDate.getMinutes().toString();
 </script>
 
 <main class="flex flex-1 flex-col gap-4 overflow-y-auto p-4 md:p-8">

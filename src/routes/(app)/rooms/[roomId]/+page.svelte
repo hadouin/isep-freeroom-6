@@ -6,6 +6,7 @@
   import ResourceTimeGrid from '@event-calendar/resource-time-grid';
   import { Toaster } from '$lib/components/ui/sonner';
   import { calendarOptions } from '$lib/calendarOptions';
+  import { Button } from '$lib/components/ui/button';
   import { Loader } from '$lib/components/loader';
   import { floorMap } from '$lib/rooms';
 
@@ -43,6 +44,12 @@
     {#if isLoading}
       <Loader class="mt-0" />
     {/if}
+    <div class="flex gap-5">
+      <p class="text-sm">
+        À {room.building}, au {floorMap[room.floor]}
+      </p>
+      <a href={`/reservation?room=${room.roomId}`}> <Button>Réserver maintenant</Button></a>
+    </div>
     <p class="text-sm">
       À {room.building}, au {floorMap[room.floor]}
     </p>
