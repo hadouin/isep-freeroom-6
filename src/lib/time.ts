@@ -1,7 +1,7 @@
 export function getTimeTo(date: number | string | Date): string {
   date = new Date(date);
 
-  const intervalInSec = (date.getTime() - new Date().getTime()) / (1000 * 60);
+  const intervalInSec = (date.getTime() - Date.now()) / (1000 * 60);
 
   const hours = Math.trunc(intervalInSec / 60).toString();
   const minutes = Math.trunc(intervalInSec % 60).toString();

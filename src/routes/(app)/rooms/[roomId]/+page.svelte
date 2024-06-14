@@ -9,6 +9,7 @@
   import { Button } from '$lib/components/ui/button';
   import { Loader } from '$lib/components/loader';
   import { floorMap } from '$lib/rooms';
+  import { fetchEvents } from '$lib/calendar';
 
   export let data;
   $: room = data.room;
@@ -63,12 +64,7 @@
         center: 'title',
         end: 'prev,next today',
       },
-      eventSources: [
-        {
-          url: `/api/events?roomId=${room.roomId}`,
-          method: 'GET',
-        },
-      ],
+      eventSources: [{ events: fetchEvents({ roomId: room.roomId }) }],
       resources: [{ id: room.roomId, title: { html: `<a href="/rooms/${room.roomId}">${room.title}</a>` } }],
     }}
     plugins={[ResourceTimeGrid]}

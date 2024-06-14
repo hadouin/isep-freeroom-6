@@ -10,6 +10,7 @@
   import { Loader } from '$lib/components/loader';
   import { Toaster } from '$lib/components/ui/sonner';
   import { calendarOptions } from '$lib/calendarOptions';
+  import { fetchEvents } from '$lib/calendar';
 
   export let data;
   $: rooms = data.rooms;
@@ -68,7 +69,7 @@
         center: 'title',
         end: 'prev,next today',
       },
-      eventSources: [{ url: '/api/events', extraParams: { building: selectedBuilding } }],
+      eventSources: [{ events: fetchEvents({ building: selectedBuilding }) }],
       loading,
       resources: selectedRooms?.map(({ roomId, title }) => ({
         id: roomId,

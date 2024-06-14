@@ -6,6 +6,22 @@ export const dateOptions: Intl.DateTimeFormatOptions = { dateStyle: 'medium', ti
 export const timeOptions: Intl.DateTimeFormatOptions = { timeStyle: 'short', timeZone: 'Europe/Paris' };
 export const dateTimeOptions: Intl.DateTimeFormatOptions = { ...dateOptions, ...timeOptions };
 
+type EventSourceParams = (
+  fetchInfo: { startStr: string; endStr: string; start: Date; end: Date },
+  successCallback: (events: Event[]) => void,
+  failureCallback: (error: any) => void
+) => void;
+
+export const fetchEvents = (params: { [key: string]: any }): EventSourceParams => {
+  return ({ startStr, endStr }, successCallback, failureCallback) => {
+    fetch(`/api/events?${new URLSearchParams({ ...params, start: startStr, end: endStr })}`)
+      .then(async (response) => (await response.json()) as Event[])
+      .then((data) => data?.map((event) => ({ ...event, start: new Date(event.start), end: new Date(event.end) })))
+      .then((data) => successCallback(data))
+      .catch((error) => failureCallback(error));
+  };
+};
+
 export function extractCalEvents(icalRaw: string, roomId: string): Event[] {
   const now = new Date();
   try {
@@ -23,7 +39,6 @@ export function extractCalEvents(icalRaw: string, roomId: string): Event[] {
 
       return isValidEvent && isAfterWeekStart;
     });
-    console.log(filteredEvents[0].description);
 
     return filteredEvents.map(
       (event: ICAL.Event): Event => ({

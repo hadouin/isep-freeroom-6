@@ -25,7 +25,8 @@ describe('time test', () => {
   });
 
   it('should test getTimeTo', () => {
-    expect(getTimeTo(new Date().getTime() + 60_000)).toBe('1min');
-    expect(getTimeTo(new Date().getTime() + 3_660_000)).toBe('1h01');
+    expect(getTimeTo(Date.now() + 60_000)).toBe('1min');
+    expect(getTimeTo(Date.now() + 3_660_000)).toBe('1h01');
+    expect(getTimeTo(Date.now() + 86_400_000)).toBe('24h00');
   });
 });

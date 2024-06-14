@@ -10,16 +10,7 @@ describe('rooms test', () => {
     expect((await getRoom('L012'))?.roomId).toBe('L012');
   });
 
-  it('should test getRooms', () => {
-    // test getRooms
-  });
-
-  it('should test getRoomCalendars', async () => {
-    // expect((await getRoomCalendars())?[0].avaliability())
-  });
-
   it('should test roomStatus', () => {
-    // only works in UTC
     const justBefore = new Date('2024-06-12T09:59:59.000Z');
     const start = new Date('2024-06-12T10:00:00.000Z');
     const end = new Date('2024-06-12T14:00:00.000Z');
