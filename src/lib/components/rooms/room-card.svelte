@@ -4,27 +4,12 @@
   // noinspection ES6UnusedImports
   import * as Tooltip from '$lib/components/ui/tooltip';
   import type { RoomCalendar } from '$lib/rooms';
-  import { timeOptions } from '$lib/calendar';
+  import { getTimeTo } from '$lib/time';
+  import { dateTimeOptions, timeOptions } from '$lib/calendar';
+  import { dev } from '$app/environment';
 
   export let room: RoomCalendar;
   $: availability = room.availability;
-
-  function getTimeTo(date: number | string | Date): string {
-    date = new Date(date);
-    const now = new Date();
-    const nowMS = now.getTime() - now.getTimezoneOffset() * 60000;
-
-    const intervalInSec = (date.getTime() - nowMS) / (1000 * 60);
-
-    const hours = Math.trunc(intervalInSec / 60).toString();
-    const minutes = Math.trunc(intervalInSec % 60).toString();
-
-    if (hours == '0') {
-      return `${minutes}min`;
-    }
-
-    return `${hours}h${minutes.padStart(2, '0')}`;
-  }
 </script>
 
 <Card.Root class="w-full">
@@ -40,11 +25,19 @@
               <span class="text-green-500">Libre</span>
               {#if availability.currentEvent}
                 <span class="text-muted-foreground"> pendant {getTimeTo(availability.currentEvent.start)}</span>
+                {#if dev}
+                  <br />{availability.currentEvent.start.toLocaleString('fr', dateTimeOptions)}
+                  <br />{availability.currentEvent.end.toLocaleString('fr', dateTimeOptions)}
+                {/if}
               {/if}
             {:else}
               <span class="text-red-500">Occupé</span>
-              {#if availability?.currentEvent}
+              {#if availability.currentEvent}
                 <span class="text-muted-foreground"> pendant {getTimeTo(availability.currentEvent.end)}</span>
+                {#if dev}
+                  <br />{availability.currentEvent.start.toLocaleString('fr', dateTimeOptions)}
+                  <br />{availability.currentEvent.end.toLocaleString('fr', dateTimeOptions)}
+                {/if}
               {/if}
             {/if}
           </Tooltip.Trigger>

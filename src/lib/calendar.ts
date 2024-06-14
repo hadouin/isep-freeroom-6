@@ -2,9 +2,25 @@ import { startOfWeek } from 'date-fns';
 import ICAL from 'ical.js';
 import type { Event } from '@prisma/client';
 
-export const dateOptions: Intl.DateTimeFormatOptions = { dateStyle: 'medium' };
-export const timeOptions: Intl.DateTimeFormatOptions = { timeStyle: 'short' };
+export const dateOptions: Intl.DateTimeFormatOptions = { dateStyle: 'medium', timeZone: 'Europe/Paris' };
+export const timeOptions: Intl.DateTimeFormatOptions = { timeStyle: 'short', timeZone: 'Europe/Paris' };
 export const dateTimeOptions: Intl.DateTimeFormatOptions = { ...dateOptions, ...timeOptions };
+
+type EventSourceParams = (
+  fetchInfo: { startStr: string; endStr: string; start: Date; end: Date },
+  successCallback: (events: Event[]) => void,
+  failureCallback: (error: Error) => void
+) => void;
+
+export const fetchEvents = (params: { [key: string]: any }): EventSourceParams => {
+  return ({ startStr, endStr }, successCallback, failureCallback) => {
+    fetch(`/api/events?${new URLSearchParams({ ...params, start: startStr, end: endStr }).toString()}`)
+      .then(async (response) => (await response.json()) as Event[])
+      .then((events) => events?.map((event) => ({ ...event, start: new Date(event.start), end: new Date(event.end) })))
+      .then((events) => successCallback(events))
+      .catch((error) => failureCallback(error));
+  };
+};
 
 export function extractCalEvents(icalRaw: string, roomId: string): Event[] {
   const now = new Date();
@@ -29,9 +45,9 @@ export function extractCalEvents(icalRaw: string, roomId: string): Event[] {
         id: `${event.uid}`,
         resourceIds: [roomId],
         title: event.summary,
-        // unixTime (in s) - timezoneOffset (in min), converted to ms for Date constructor
-        start: new Date((event.startDate.toUnixTime() - now.getTimezoneOffset() * 60) * 1000),
-        end: new Date((event.endDate.toUnixTime() - now.getTimezoneOffset() * 60) * 1000),
+        // unixTime (in s), converted to ms for Date constructor
+        start: new Date(event.startDate.toUnixTime() * 1000),
+        end: new Date(event.endDate.toUnixTime() * 1000),
         roomId,
       })
     );
