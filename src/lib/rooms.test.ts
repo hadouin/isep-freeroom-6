@@ -2,10 +2,6 @@ import { describe, expect, it } from 'vitest';
 import { getRoom, roomStatus } from '$lib/rooms';
 
 describe('rooms test', () => {
-  it('should check timezone', async () => {
-    console.log(new Date().getTimezoneOffset()); // server in UTC Timezone
-  });
-
   it('should test getRoom', async () => {
     expect((await getRoom('L012'))?.roomId).toBe('L012');
   });

@@ -9,15 +9,15 @@ export const dateTimeOptions: Intl.DateTimeFormatOptions = { ...dateOptions, ...
 type EventSourceParams = (
   fetchInfo: { startStr: string; endStr: string; start: Date; end: Date },
   successCallback: (events: Event[]) => void,
-  failureCallback: (error: any) => void
+  failureCallback: (error: Error) => void
 ) => void;
 
 export const fetchEvents = (params: { [key: string]: any }): EventSourceParams => {
   return ({ startStr, endStr }, successCallback, failureCallback) => {
-    fetch(`/api/events?${new URLSearchParams({ ...params, start: startStr, end: endStr })}`)
+    fetch(`/api/events?${new URLSearchParams({ ...params, start: startStr, end: endStr }).toString()}`)
       .then(async (response) => (await response.json()) as Event[])
-      .then((data) => data?.map((event) => ({ ...event, start: new Date(event.start), end: new Date(event.end) })))
-      .then((data) => successCallback(data))
+      .then((events) => events?.map((event) => ({ ...event, start: new Date(event.start), end: new Date(event.end) })))
+      .then((events) => successCallback(events))
       .catch((error) => failureCallback(error));
   };
 };

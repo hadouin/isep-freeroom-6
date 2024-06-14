@@ -3,7 +3,11 @@ import { endOfDay, getTimeTo, offsetToParis, startOfDay, toParisDate } from '$li
 import { endOfToday, startOfToday } from 'date-fns';
 
 describe('time test', () => {
-  // change TZ to UTC with globalSetup.ts
+  // TZ set to UTC for tests in globalSetup.ts
+  it('should log timezone offset', async () => {
+    console.log('timezone offset:', new Date().getTimezoneOffset());
+  });
+
   it('(UTC TZ) should test offsetToParis & nowParis', () => {
     const now = Date.now();
     const offset = 120 * 60_000; // 120 (s to ms) offset works in summer, 60 in winter time
