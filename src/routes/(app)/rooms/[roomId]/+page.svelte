@@ -69,7 +69,7 @@
           method: 'GET',
         },
       ],
-      resources: [{ id: room.roomId, title: { html: `<a href="rooms/${room.roomId}">${room.title}</a>` } }],
+      resources: [{ id: room.roomId, title: { html: `<a href="/rooms/${room.roomId}">${room.title}</a>` } }],
     }}
     plugins={[ResourceTimeGrid]}
   />

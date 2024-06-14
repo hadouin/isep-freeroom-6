@@ -4,7 +4,7 @@ import { buildCalendarUrl } from '$lib/rooms-config';
 import type { PlainEvent } from '$lib/events';
 import { type Event, Floor, type Room } from '@prisma/client';
 import prisma from '$lib/prisma';
-import { endOfToday, isBefore, isWithinInterval, startOfToday } from 'date-fns';
+import { endOfDay, startOfDay, toParisDate } from '$lib/time';
 
 export type RoomCalendar = Room & {
   availability: { isFree: boolean; currentEvent?: PlainEvent };
@@ -57,33 +57,30 @@ export async function getRooms(): Promise<Room[]> {
 }
 
 export async function getRoomCalendars(): Promise<RoomCalendar[]> {
+  const nowParis = toParisDate(Date.now());
   const rooms: ({ events: Event[] } & Room)[] | null = await prisma.room.findMany({
     include: {
       events: {
-        where: { start: { gte: startOfToday(), lte: endOfToday() } },
+        where: { start: { gte: startOfDay(nowParis), lte: endOfDay(nowParis) } },
         orderBy: { start: 'asc' },
       },
     },
     orderBy: { roomId: 'asc' },
   });
 
-  // current time(ms) - timezoneOffset(min), converted to ms for Date constructor
-  const nowUTC = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000);
-
   return rooms.map((room) => ({
     ...room,
-    availability: roomStatus(nowUTC, room.events || []),
+    availability: roomStatus(new Date(), room.events || []),
   }));
 }
 
-function roomStatus(date: Date, sortedEvents: PlainEvent[]): { isFree: boolean; currentEvent?: PlainEvent } {
+export function roomStatus(date: Date, sortedEvents: PlainEvent[]): { isFree: boolean; currentEvent?: PlainEvent } {
   for (const event of sortedEvents) {
-    if (isWithinInterval(date, { start: event.start, end: event.end })) {
-      return { isFree: false, currentEvent: event };
-    }
-
-    if (isBefore(date, event.start)) {
+    if (date.getTime() < event.start.getTime()) {
       return { isFree: true, currentEvent: event };
+    }
+    if (date.getTime() <= event.end.getTime()) {
+      return { isFree: false, currentEvent: event };
     }
   }
   return { isFree: true };

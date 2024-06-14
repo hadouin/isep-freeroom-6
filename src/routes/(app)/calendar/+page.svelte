@@ -31,7 +31,7 @@
   }
 </script>
 
-<main class="flex flex-col flex-1 gap-4 p-4 overflow-auto md:gap-6 md:p-8">
+<main class="flex flex-1 flex-col gap-4 overflow-auto p-4 md:gap-6 md:p-8">
   <Breadcrumb.Root>
     <Breadcrumb.List>
       <Breadcrumb.Item>
@@ -55,7 +55,7 @@
       </Tabs.List>
     </Tabs.Root>
     {#if isLoading}
-      <Loader class="w-full mt-0" />
+      <Loader class="mt-0 w-full" />
     {/if}
   </div>
   <Calendar
@@ -72,7 +72,9 @@
       loading,
       resources: selectedRooms?.map(({ roomId, title }) => ({
         id: roomId,
-        title: { html: `<a href="rooms/${roomId}">${title}</a>` },
+        title: {
+          html: `<a href="/rooms/${roomId}" class="text-blue-900 dark:text-sky-200 hover:underline">${title}</a>`,
+        },
       })),
     }}
     plugins={[ResourceTimeGrid]}
