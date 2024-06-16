@@ -32,53 +32,54 @@
   }
 </script>
 
-<main class="flex flex-1 flex-col gap-4 overflow-auto p-4 md:gap-6 md:p-8">
-  <Breadcrumb.Root>
-    <Breadcrumb.List>
-      <Breadcrumb.Item>
-        <Breadcrumb.Link href="/">Accueil</Breadcrumb.Link>
-      </Breadcrumb.Item>
-      <Breadcrumb.Separator />
-      <Breadcrumb.Item>
-        <Breadcrumb.Page>Calendrier</Breadcrumb.Page>
-      </Breadcrumb.Item>
-    </Breadcrumb.List>
-  </Breadcrumb.Root>
+<main class="flex-1 overflow-auto p-4 xl:p-8">
+  <div class="flex min-w-fit flex-col gap-4 xl:gap-6">
+    <Breadcrumb.Root>
+      <Breadcrumb.List>
+        <Breadcrumb.Item>
+          <Breadcrumb.Link href="/">Accueil</Breadcrumb.Link>
+        </Breadcrumb.Item>
+        <Breadcrumb.Separator />
+        <Breadcrumb.Item>
+          <Breadcrumb.Page>Calendrier</Breadcrumb.Page>
+        </Breadcrumb.Item>
+      </Breadcrumb.List>
+    </Breadcrumb.Root>
 
-  <div class="flex gap-4">
-    <Tabs.Root bind:value={selectedBuilding}>
-      <Tabs.List class="ml-auto">
-        {#each Object.values(Building) as building}
-          <Tabs.Trigger class="px-12 text-zinc-600 dark:text-zinc-200" value={building}>
-            {building}
-          </Tabs.Trigger>
-        {/each}
-      </Tabs.List>
-    </Tabs.Root>
-    {#if isLoading}
-      <Loader class="mt-0 w-full" />
-    {/if}
-  </div>
-  <Calendar
-    bind:this={ec}
-    options={{
-      ...calendarOptions,
-      view: 'resourceTimeGridDay',
-      headerToolbar: {
-        start: '',
-        center: 'title',
-        end: 'prev,next today',
-      },
-      eventSources: [{ events: fetchEvents({ building: selectedBuilding }) }],
-      loading,
-      resources: selectedRooms?.map(({ roomId, title }) => ({
-        id: roomId,
-        title: {
-          html: `<a href="/rooms/${roomId}" class="text-blue-900 dark:text-sky-200 hover:underline">${title}</a>`,
+    <div class="flex gap-4">
+      <Tabs.Root bind:value={selectedBuilding}>
+        <Tabs.List class="ml-auto">
+          {#each Object.values(Building) as building}
+            <Tabs.Trigger class="px-12 text-zinc-600 dark:text-zinc-200" value={building}>
+              {building}
+            </Tabs.Trigger>
+          {/each}
+        </Tabs.List>
+      </Tabs.Root>
+
+      <Loader bind:isLoading class="mt-0 w-full" />
+    </div>
+    <Calendar
+      bind:this={ec}
+      options={{
+        ...calendarOptions,
+        view: 'resourceTimeGridDay',
+        headerToolbar: {
+          start: '',
+          center: 'title',
+          end: 'prev,next today',
         },
-      })),
-    }}
-    plugins={[ResourceTimeGrid]}
-  />
+        eventSources: [{ events: fetchEvents({ building: selectedBuilding }) }],
+        loading,
+        resources: selectedRooms?.map(({ roomId, title }) => ({
+          id: roomId,
+          title: {
+            html: `<a href="/rooms/${roomId}" class="hover:underline">${title}</a>`,
+          },
+        })),
+      }}
+      plugins={[ResourceTimeGrid]}
+    />
+  </div>
   <Toaster />
 </main>

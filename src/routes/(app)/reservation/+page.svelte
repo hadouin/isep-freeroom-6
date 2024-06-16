@@ -32,7 +32,6 @@
 
   const form = superForm(data.form, {
     validators: zodClient(formSchema),
-    resetForm: true,
     onResult({ result }) {
       console.log(result);
       if (result.status === 200) {
@@ -67,7 +66,7 @@
 
   <form class="mx-auto w-full sm:w-[500px]" method="POST" use:enhance>
     <div class="grid gap-4">
-      <h1 class="text-center text-3xl font-bold">Réservation</h1>
+      <h1 class="text-center text-3xl font-bold">Demande de réservation</h1>
 
       <div class="grid gap-4 sm:grid-cols-2">
         <Form.Field {form} name="firstname">

@@ -17,7 +17,7 @@
   // );
 </script>
 
-<main class="flex flex-col flex-1 gap-4 p-4 overflow-scroll md:gap-8 md:p-8">
+<main class="flex flex-1 flex-col gap-4 overflow-auto p-4 md:gap-8 md:p-8">
   <h1 class="text-xl font-bold">Mon Compte</h1>
   {#if $page.data.session}
     <div class="flex flex-col">
@@ -25,6 +25,5 @@
       <div>{$page.data?.session?.cas.user}</div>
       <div class="mt-1 text-secondary-foreground">{$page.data?.session?.cas.attributes.mail._text}</div>
     </div>
-    <!-- <pre class="text-xs">{JSON.stringify(attributes, null, 2)}</pre> -->
   {/if}
 </main>

@@ -15,7 +15,7 @@
       <Card.Title>À la recherche d'une salle ?</Card.Title>
     </Card.Header>
     <Card.Content>
-      <div class="w-[300px]">
+      <div class="flex w-[300px] min-w-0">
         <SearchBar {rooms} />
       </div>
     </Card.Content>

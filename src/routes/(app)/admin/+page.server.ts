@@ -1,13 +1,8 @@
 import prisma from '$lib/prisma';
 import type { PageServerLoad } from './$types';
 
-export const load: PageServerLoad = async (event) => {
-  const reservations = await prisma.reservation.findMany({
-  });
+export const load: PageServerLoad = async () => {
+  const reservations = await prisma.reservation.findMany();
 
-  console.log(reservations);
-
-  return {
-    reservations,
-  };
+  return { reservations };
 };

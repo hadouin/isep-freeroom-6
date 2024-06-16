@@ -27,11 +27,11 @@
       aria-expanded={open}
       aria-label="Chercher une salle"
       builders={[builder]}
-      class={cn('relative w-full justify-between', className)}
+      class={cn('relative flex w-full min-w-0 justify-between', className)}
       role="combobox"
       variant="outline"
     >
-      {selectedValue}
+      <span class="truncate">{selectedValue}</span>
       <ChevronsUpDown class="ml-2 h-4 w-4 shrink-0 opacity-50" />
     </Button>
   </Popover.Trigger>

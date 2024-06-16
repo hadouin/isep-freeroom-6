@@ -15,8 +15,8 @@ module.exports = {
     node: true,
   },
   rules: {
-    "no-console": ["warn", { allow: ["error", "time", "timeEnd"] }],
-    "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_", varsIgnorePattern: "^_" }],
+    'no-console': ['warn', { allow: ['error', 'time', 'timeEnd'] }],
+    '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
   },
   overrides: [
     {

@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { Badge } from '$lib/components/ui/badge'
+  import { Badge } from '$lib/components/ui/badge';
 
-  export let status: string | undefined = undefined
+  export let status: string | undefined = undefined;
 </script>
 
 {#if status === undefined}

@@ -12,7 +12,7 @@ type EventSourceParams = (
   failureCallback: (error: Error) => void
 ) => void;
 
-export const fetchEvents = (params: { [key: string]: any }): EventSourceParams => {
+export const fetchEvents = (params: { [key: string]: string }): EventSourceParams => {
   return ({ startStr, endStr }, successCallback, failureCallback) => {
     fetch(`/api/events?${new URLSearchParams({ ...params, start: startStr, end: endStr }).toString()}`)
       .then(async (response) => (await response.json()) as Event[])

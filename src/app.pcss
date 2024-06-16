@@ -78,9 +78,26 @@
   }
 }
 
-.ec-day {
+.ec {
+  min-width: 100% !important;
+}
+
+.ec-day, .ec-resource {
   min-width: 45px !important;
 }
 .ec-now-indicator {
   z-index: 49 !important;
+}
+
+.ec-toolbar:last-child {
+  width: min-content !important;
+}
+
+.ec-button-group {
+  display: block !important;
+}
+@media (min-width: 640px) {
+  .ec-button-group {
+    display: inline-block !important;
+  }
 }
