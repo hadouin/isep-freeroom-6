@@ -1,88 +1,145 @@
 # FreeRoom • Edelweiss
 
-## Manuel de déloiement
+## Manuel de déploiement
 
 ### Développement
 
 Prérequis :
+
 - pnpm https://pnpm.io/installation#using-npm
 - docker https://docs.docker.com/get-docker/
 
 1. Cloner le dépôt
 
-```sh
-git clone git@github.com:hadouin/isep-freeroom-6.git
-```
+   ```shell
+   git clone git@github.com:hadouin/isep-freeroom-6.git
+   ```
 
 2. Installer les dépendances
 
-```sh
-pnpm install
-```
+   ```shell
+   pnpm install
+   ```
 
-3. Lancer la base de donnée locale et set les variables d'environnement
+3. Copier l'exemple dans le fichier .env et le modifier au besoin
 
-```sh
-docker-compose up -d
-```
+   ```shell
+   cp .env.example .env
+   vi .env
+   ```
 
-4. Seed la base de donnée (créer les données de test)
+4. Lancer la BDD locale
+
+   ```shell
+   docker-compose up -d
+   ```
+
+5. Effectuer les migrations de la BDD
+
+   ```shell
+   pnpm exec prisma migrate dev
+   ```
+
+6. Seed la BDD (crée les données initiales)
+
+   ```shell
+   pnpm exec prisma db seed
+   ```
+
+7. Lancer le serveur de développement
+
+   ```shell
+   pnpm dev --open
+   ```
+
+   Ou ouvrez manuellement le navigateur à l'adresse http://localhost:5173 après avoir executé :
+
+   ```shell
+   pnpm dev
+   ```
+
+### Preview (visualisation de la production en local)
 
 ```shell
-npx prisma db seed
+pnpm postinstall
+pnpm run build
+pnpm run preview
 ```
-
-4. Lancer le serveur de développement
-
-```sh
-pnpm dev
-```
-
-5. Ouvrir le navigateur à l'adresse http://localhost:5173
 
 ### Production
 
+Définir les variables d'environnement `POSTGRES_PRISMA_URL` et `EMAIL_URL`, puis :
+
+```shell
+pnpm install
+pnpm run build
+```
+
+Mettre en place un cron pour mettre à jour les événements sur `/api/events/update` :
+<br/>`*/15 7-22 * * 1-5` = Tous les quarts d'heure de 7h à 22h45 du lundi au vendredi
+
+Les requêtes en production prennent en moyenne 12s ; minimum 7.88s ; maximum 13.46s (calculée sur 6 jours).
+Pour référence, une requête de 10.63s comprend une attente des calendriers d'HyperPlanning de 9.596s.
+
+### Production (sur Vercel)
+
 Prérequis :
-- vercel account
-- postgres database in vercel
+
+- compte Vercel
+- BDD Postgres sur Vercel (dans storage)
 
 1. Lier le dépôt à vercel
 
-```sh
-vercel login
-vercel
-```
+   ```shell
+   vercel login
+   vercel
+   ```
 
-2. Configurer les variables d'environnement avec les valeurs de la base de données postgres récupéré en production
+2. Configurer les variables d'environnement (`POSTGRES_PRISMA_URL` déjà configuré par la BDD)
 
 3. Déployer
 
-```sh
-vercel --prod
-```
+   ```shell
+   vercel --prod
+   ```
 
 ### Prisma Database
 
-Apply migrations:
+Re-generate Prisma Client (updates the client, not the database):
+<br/><small>Useful in dev after changing the schema to update the definitions that reflect the model structures</small>
 
 ```shell
-pnpm exec prisma migrate dev
+pnpm exec prisma generate
 ```
 
-Seed the database if need be:
-
-```shell
-pnpm exec prisma db seed
-```
-
-After changing the prisma schema, create a new migration:
+After changing the prisma schema, create a new **migration**:
 
 ```shell
 pnpm exec prisma migrate dev --name <migration-name>
 ```
 
-To re-generate Prisma Client, run:
+Apply migrations in **development**:
 
 ```shell
-pnpm exec prisma generate
+pnpm exec prisma migrate dev
+```
+
+Or in **staging / production**:
+
+```shell
+pnpm exec prisma migrate deploy
+```
+
+**Seed** the database:
+<br/><small>Used to add the rooms and their events when initialising the database</small>
+
+```shell
+pnpm exec prisma db seed
+```
+
+**Reset** database and apply all migrations (all data will be lost):
+
+```shell
+pnpm exec prisma migrate reset
+# [--skip-generate] [--skip-seed]
 ```
