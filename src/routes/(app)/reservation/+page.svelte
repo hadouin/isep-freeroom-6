@@ -17,6 +17,7 @@
   import { Checkbox } from '$lib/components/ui/checkbox';
   import { Label } from '$lib/components/ui/label';
   import { getLocalTimeZone, parseDate, today } from '@internationalized/date';
+  import { timeOptions } from '$lib/calendar';
 
   export let data: PageData;
 
@@ -45,10 +46,10 @@
   });
 
   const { form: formData, enhance } = form;
-  const currentDate = new Date();
+  const currentDate = new Date(new Date().setMinutes(Math.ceil(new Date().getMinutes() / 5) * 5, 0, 0));
   $formData.startDate = today(getLocalTimeZone()).toString();
-  $formData.startTime = currentDate.getHours().toString() + ':' + currentDate.getMinutes().toString();
-  $formData.endTime = (currentDate.getHours() + 1).toString() + ':' + currentDate.getMinutes().toString();
+  $formData.startTime = currentDate.toLocaleString('fr', timeOptions);
+  $formData.endTime = new Date(currentDate.setHours(currentDate.getHours() + 1)).toLocaleString('fr', timeOptions);
 </script>
 
 <main class="flex flex-1 flex-col gap-4 overflow-y-auto p-4 md:p-8">
@@ -96,7 +97,7 @@
       <Form.Field {form} name="reason">
         <Form.Control let:attrs>
           <Form.Label>Raison ou origine de la demande</Form.Label>
-          <Input {...attrs} bind:value={$formData.reason} placeholder="Association, cours, khôlle ..." type="text" />
+          <Input {...attrs} bind:value={$formData.reason} placeholder="Association, cours, soutenance, …" type="text" />
         </Form.Control>
         <Form.FieldErrors />
       </Form.Field>
